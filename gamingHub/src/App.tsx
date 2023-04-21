@@ -1,15 +1,13 @@
-import React from 'react';
-import './App.css';
-import { MasterPage } from './pages';
-
+import React from "react";
+import "./App.css";
+import { MasterPage } from "./pages";
 
 const App: React.FC = () => {
-
   return (
     <div className="App">
-      <MasterPage/>
+      <MasterPage />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
