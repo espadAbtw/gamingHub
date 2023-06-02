@@ -4,5 +4,11 @@ html,
 body,
 #root,
 .app {
+<<<<<<< Updated upstream
+=======
+  margin: 0;
+  height: 100%;
+  width: 100%;
+>>>>>>> Stashed changes
   font-family: "Orbitron", sans-serif;
 }

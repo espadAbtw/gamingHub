@@ -3,7 +3,6 @@ import { SignInForm } from "./sign-in";
 import { SignUpForm } from "./sign-up";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import LogoTransparent from "../../assets/logo_transparent.png";
-import { useTheme } from "@emotion/react";
 
 export const SignForm: React.FC = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 700px)");
