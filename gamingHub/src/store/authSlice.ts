@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 export type user = {
   _id: string;
   name: string;
@@ -7,9 +8,13 @@ export type user = {
   friends: string[];
   resetToken: string;
 };
-const initialState = {
+
+type authState = {
+  user: user | null;
+};
+
+const initialState: authState = {
   user: null,
-  token: null,
 };
 
 export const authSlice = createSlice({
@@ -18,15 +23,13 @@ export const authSlice = createSlice({
   reducers: {
     setLogin: (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
     },
     setLogout: (state, action) => {
       state.user = null;
-      state.token = null;
     },
     addFriend: (state, action) => {
       if (state.user) {
-        state.user.friends.push(action.payload.friends);
+        state.user.friends.push(action.payload.friend);
       }
     },
   },

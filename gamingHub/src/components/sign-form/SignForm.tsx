@@ -1,37 +1,72 @@
-import React from "react";
-import { SignUpFrom } from "./sign-up";
+import React, { useState } from "react";
 import { SignInForm } from "./sign-in";
+import { SignUpForm } from "./sign-up";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import LogoTransparent from "../../assets/logo_transparent.png";
 import { useTheme } from "@emotion/react";
 
 export const SignForm: React.FC = () => {
-  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+  const isNonMobileScreens = useMediaQuery("(min-width: 700px)");
+  const [isSignIn, setIsSignIn] = useState(true);
+
+  const toggleForm = () => {
+    setIsSignIn(!isSignIn);
+  };
 
   return (
     <Box
       sx={{
-        component: "div",
-        width: "100%",
-        p: "2rem auto",
-        m: "2rem auto",
-        borderRadius: "1rem",
-        backgroundColor: "black",
-        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        width: isNonMobileScreens ? "600px" : "100vw",
+        minHeight: isNonMobileScreens ? "600px" : "100vh",
+        paddingTop: "20px",
+        paddingBottom: "20px",
+        margin: isNonMobileScreens ? "calc(50vh - 320px) auto " : "0",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#f3f2f2",
+        color: "black",
+        borderRadius: isNonMobileScreens ? "15px" : "0",
       }}
     >
-      <img src={LogoTransparent} width={100}></img>
+      <img src={LogoTransparent} width={100} alt="Logo"></img>
       <Typography
         fontFamily="Orbitron"
         fontWeight="500"
         variant="h5"
         sx={{ mb: "1.5rem" }}
       >
-        Sign in to GamingHub
+        {isSignIn ? "Sign in to GamingHub" : "Sign up for GamingHub"}
       </Typography>
-      <SignInForm />
-      --- OR ---
-      <SignUpFrom />
+      {isSignIn ? <SignInForm /> : <SignUpForm />}
+      {isSignIn ? (
+        <Typography
+          onClick={toggleForm}
+          sx={{
+            mt: "1rem",
+            cursor: "pointer",
+            "&:hover": {
+              color: "rgb(69, 166, 243)",
+            },
+          }}
+        >
+          Do you want to sign up?
+        </Typography>
+      ) : (
+        <Typography
+          onClick={toggleForm}
+          sx={{
+            mt: "1rem",
+            cursor: "pointer",
+            "&:hover": {
+              color: "rgb(69, 166, 243)",
+            },
+          }}
+        >
+          Do you want to sign in?
+        </Typography>
+      )}
     </Box>
   );
 };

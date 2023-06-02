@@ -4,10 +4,5 @@ import { SignForm } from "../../components";
 import { Grid } from "@mui/material";
 
 export const MasterPage: React.FC = () => {
-  return (
-    <Grid>
-      <LandingPage />
-      <SignForm />
-    </Grid>
-  );
+  return <SignForm />;
 };
