@@ -27,6 +27,7 @@ import React from "react";
 import { useState } from "react";
 import { RootState } from "../../store/store";
 import { setLogout } from "../../store/authSlice";
+import LogoTransparent from "../../assets/logo_transparent.png";
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -123,7 +124,7 @@ export const Navbar: React.FC = () => {
             zIndex: "10",
             maxWidth: "500px",
             minWidth: "300px",
-            backgroundColor: "#5699db",
+            backgroundColor: "#ffffff",
           }}
         >
           {/* CLOSE ICON */}
@@ -143,10 +144,11 @@ export const Navbar: React.FC = () => {
             alignItems="center"
             gap="3rem"
           >
+            <img src={LogoTransparent} width={100} alt="Logo"></img>
             <Button
               sx={{
                 width: "90%",
-                backgroundColor: "#f8f9fb",
+                backgroundColor: "#e4edff",
                 color: "black",
                 "&:focus, &:active": {
                   backgroundColor: "#c9d2e4",
@@ -162,7 +164,7 @@ export const Navbar: React.FC = () => {
             <Button
               sx={{
                 width: "90%",
-                backgroundColor: "#f8f9fb",
+                backgroundColor: "#e4edff",
                 color: "black",
                 "&:focus, &:active": {
                   backgroundColor: "#c9d2e4",
