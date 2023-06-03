@@ -7,6 +7,8 @@ import {
   MenuItem,
   FormControl,
   useMediaQuery,
+  Link,
+  Avatar,
   Button,
 } from "@mui/material";
 import {
@@ -14,8 +16,10 @@ import {
   EditNotifications,
   Help,
   Menu,
+  Person,
   Close,
 } from "@mui/icons-material";
+import BlindIcon from "@mui/icons-material/Blind";
 import FlexBetween from "../structure/FlexBetween";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +27,7 @@ import React from "react";
 import { useState } from "react";
 import { RootState } from "../../store/store";
 import { setLogout } from "../../store/authSlice";
+import LogoTransparent from "../../assets/logo_transparent.png";
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -34,7 +39,7 @@ export const Navbar: React.FC = () => {
   const fullName = `${user?.name}`;
 
   return (
-    <FlexBetween padding="1rem 6%" sx={{ backgroundColor: "green" }}>
+    <FlexBetween padding="1rem 6%" sx={{ backgroundColor: "#f8f9fb" }}>
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
@@ -42,8 +47,11 @@ export const Navbar: React.FC = () => {
           color="primary"
           onClick={() => navigate("/home")}
           sx={{
+            "&:focus, &:active": {
+              color: "#5699db",
+            },
             "&:hover": {
-              color: "white",
+              color: "#5699db",
               cursor: "pointer",
             },
           }}
@@ -62,8 +70,36 @@ export const Navbar: React.FC = () => {
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
+          <Link href="">
+            <IconButton>
+              <Avatar
+                sx={{
+                  bgcolor: "#1976d2",
+                  height: "36px",
+                  width: "36px",
+                  "&:focus, &:active": {
+                    backgroundColor: "#5699db",
+                  },
+                  "&:hover": {
+                    backgroundColor: "#5699db",
+                  },
+                }}
+              >
+                <Person />
+              </Avatar>
+            </IconButton>
+          </Link>
           <Button
-            sx={{ backgroundColor: "red" }}
+            sx={{
+              backgroundColor: "#1976d2",
+              color: "white",
+              "&:focus, &:active": {
+                backgroundColor: "#5699db",
+              },
+              "&:hover": {
+                backgroundColor: "#5699db",
+              },
+            }}
             onClick={() => dispatch(setLogout())}
           >
             Log Out
@@ -88,7 +124,7 @@ export const Navbar: React.FC = () => {
             zIndex: "10",
             maxWidth: "500px",
             minWidth: "300px",
-            backgroundColor: "blue",
+            backgroundColor: "#ffffff",
           }}
         >
           {/* CLOSE ICON */}
@@ -108,30 +144,39 @@ export const Navbar: React.FC = () => {
             alignItems="center"
             gap="3rem"
           >
-            <Message sx={{ fontSize: "25px" }} />
-            <EditNotifications sx={{ fontSize: "25px" }} />
-            <Help sx={{ fontSize: "25px" }} />
-            <FormControl>
-              <Select
-                value={fullName}
-                sx={{
-                  backgroundColor: "red",
-                  width: "150px",
-                  borderRadius: "0.25rem",
-                  p: "0.25rem 1rem",
-                  "& .MuiSvgIcon-root": {
-                    pr: "0.25rem",
-                    width: "3rem",
-                  },
-                  "& .MuiSelect-select:focus": {
-                    backgroundColor: "blue",
-                  },
-                }}
-                input={<InputBase />}
-              >
-                <Button onClick={() => dispatch(setLogout())}>Log Out</Button>
-              </Select>
-            </FormControl>
+            <img src={LogoTransparent} width={100} alt="Logo"></img>
+            <Button
+              sx={{
+                width: "90%",
+                backgroundColor: "#e4edff",
+                color: "black",
+                "&:focus, &:active": {
+                  backgroundColor: "#c9d2e4",
+                },
+                "&:hover": {
+                  backgroundColor: "#c9d2e4",
+                },
+              }}
+              onClick={() => dispatch(setLogout())}
+            >
+              My Profile
+            </Button>
+            <Button
+              sx={{
+                width: "90%",
+                backgroundColor: "#e4edff",
+                color: "black",
+                "&:focus, &:active": {
+                  backgroundColor: "#c9d2e4",
+                },
+                "&:hover": {
+                  backgroundColor: "#c9d2e4",
+                },
+              }}
+              onClick={() => dispatch(setLogout())}
+            >
+              Log Out
+            </Button>
           </FlexBetween>
         </Box>
       )}
