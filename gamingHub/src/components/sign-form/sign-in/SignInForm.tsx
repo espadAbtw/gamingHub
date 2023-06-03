@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,30 +9,42 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  Alert,
 } from "@mui/material";
 import { LoginCredentials, getLoginEndpoint } from "../../../utils";
 import { GhDataApi } from "../../../utils/axiosConfig";
+import { setLogin } from "../../../store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router";
 
 export const SignInForm: React.FC = () => {
   const { palette } = useTheme();
+  const [isError, setIsError] = useState(false);
   const isNonMobile = useMediaQuery("(min-width:700px)");
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const initialValuesLogin: LoginCredentials = {
     email: "",
     password: "",
   };
-
+  const state = useSelector((state) => state);
   const loginSchema = yup.object().shape({
-    email: yup.string().email("invalid email").required("required"),
-
-    password: yup.string().required("required"),
+    email: yup.string().email("Invalid email").required("Email required"),
+    password: yup.string().required("Password required"),
   });
 
   const onSubmit = (values: LoginCredentials): void => {
-    GhDataApi.post(getLoginEndpoint(), values).then((response) =>
-      console.log(response)
-    );
+    GhDataApi.post(getLoginEndpoint(), values)
+      .then((response) => {
+        console.log(response.data);
+        dispatch(setLogin({ user: response.data })); // User leci do stora
+        navigate("/home"); // Przekierowanie na stronę /home po udanym zalogowaniu
+      })
+      .catch((err) => setIsError(true));
   };
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   return (
     <Formik
@@ -73,7 +85,11 @@ export const SignInForm: React.FC = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-
+          {isError ? (
+            <Alert severity="error">
+              Wrong login credentials, please try again
+            </Alert>
+          ) : null}
           <Box>
             <Button
               fullWidth
