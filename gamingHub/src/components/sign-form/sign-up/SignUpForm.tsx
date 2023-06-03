@@ -3,12 +3,15 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { Box, Button, TextField, useMediaQuery, useTheme } from "@mui/material";
+import { LoginCredentials } from "../../../utils/types/forms";
+import { GhDataApi } from "../../../utils/axiosConfig";
+import { getLoginEndpoint } from "../../../utils";
 
 export const SignUpForm: React.FC = () => {
-  const handleFormSubmit = async () => {};
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const isNonMobile = useMediaQuery("(min-width:700px)");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialValuesLogin = {
     name: "",
@@ -22,9 +25,10 @@ export const SignUpForm: React.FC = () => {
     name: yup.string().required("required"),
   });
 
+
   return (
     <Formik
-      onSubmit={handleFormSubmit}
+      onSubmit={onSubmit}
       initialValues={initialValuesLogin}
       validationSchema={loginSchema}
     >

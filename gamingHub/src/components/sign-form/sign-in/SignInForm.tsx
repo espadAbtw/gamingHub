@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import {
@@ -10,45 +10,38 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { LoginCredentials, getLoginEndpoint } from "../../../utils";
+import { GhDataApi } from "../../../utils/axiosConfig";
 
 export const SignInForm: React.FC = () => {
-  const handleFormSubmit = async () => {};
-  const [pageType, setPageType] = useState("register");
   const { palette } = useTheme();
   const isNonMobile = useMediaQuery("(min-width:700px)");
 
-  const initialValuesRegister = {
-    name: "",
+  const initialValuesLogin: LoginCredentials = {
     email: "",
     password: "",
   };
 
-  const registerSchema = yup.object().shape({
+  const loginSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),
-    name: yup.string().required("required"),
+
     password: yup.string().required("required"),
   });
 
-  const isLogin = pageType === "login";
-  const isRegister = pageType === "register";
+  const onSubmit = (values: LoginCredentials): void => {
+    GhDataApi.post(getLoginEndpoint(), values).then((response) =>
+      console.log(response)
+    );
+  };
 
   return (
     <Formik
-      onSubmit={handleFormSubmit}
-      initialValues={initialValuesRegister}
-      validationSchema={registerSchema}
+      onSubmit={onSubmit}
+      initialValues={initialValuesLogin}
+      validationSchema={loginSchema}
     >
-      {({
-        values,
-        errors,
-        touched,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        setFieldValue,
-        resetForm,
-      }) => (
-        <form onSubmit={handleSubmit}>
+      {({ values, errors, touched, handleBlur, handleChange }) => (
+        <Form>
           <Box
             display="grid"
             gap="30px"
@@ -60,8 +53,8 @@ export const SignInForm: React.FC = () => {
             <TextField
               label="Email"
               onBlur={handleBlur}
-              onChange={handleChange}
               value={values.email}
+              onChange={handleChange}
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={touched.email && errors.email}
@@ -72,8 +65,8 @@ export const SignInForm: React.FC = () => {
               label="Password"
               type="password"
               onBlur={handleBlur}
-              onChange={handleChange}
               value={values.password}
+              onChange={handleChange}
               name="password"
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
@@ -81,7 +74,6 @@ export const SignInForm: React.FC = () => {
             />
           </Box>
 
-          {/* BUTTONS */}
           <Box>
             <Button
               fullWidth
@@ -97,7 +89,7 @@ export const SignInForm: React.FC = () => {
               Wyslij
             </Button>
           </Box>
-        </form>
+        </Form>
       )}
     </Formik>
   );
