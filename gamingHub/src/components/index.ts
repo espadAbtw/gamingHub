@@ -3,4 +3,4 @@ export * from "./navigation";
 export * from "./UserImage";
 export * from "./WidgetWrapper";
 export * from "./FlexBetween";
-export * from "./Friend";
+export * from "./widgets/FriendWidget";

@@ -21,8 +21,7 @@ const App: React.FC = () => {
           <Route path={loginPath()} element={<SignForm />} />
           <Route
             path={landingPagePath()}
-            element={<LandingPage />}
-            // element={isAuth ? <LandingPage /> : <Navigate to={loginPath()} />}
+            element={isAuth ? <LandingPage /> : <Navigate to={loginPath()} />}
           />
           <Route />
           <Route
