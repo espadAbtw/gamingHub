@@ -6,7 +6,7 @@ import { getAllPosts, selectPosts } from "../../store/postSlice";
 
 type PostsWidgetProps = {
   userId: string;
-  isProfile: boolean;
+  isProfile?: boolean;
 };
 
 export const PostsWidget: React.FC<PostsWidgetProps> = ({

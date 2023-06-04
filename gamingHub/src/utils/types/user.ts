@@ -7,4 +7,5 @@ export type User = {
   password: string;
   friends: Friend[];
   resetToken: string;
+  userPicturePath: string;
 };

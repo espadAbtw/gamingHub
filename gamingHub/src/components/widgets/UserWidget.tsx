@@ -26,7 +26,7 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
   const [user, setUser] = useState<User | null>(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
-  const token = useSelector((state: RootState) => state.user?.resetToken);
+
   const dark = "black";
   const medium = "blue";
   const main = "white";

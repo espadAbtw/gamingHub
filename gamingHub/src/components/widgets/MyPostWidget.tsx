@@ -36,8 +36,7 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
   const [selectedImage, setSelectedImage] = useState<image | null>(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
-  const _id = useSelector((state: RootState) => state.user?._id);
-  const token = useSelector((state: RootState) => state.user?.resetToken);
+
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = "white";
   const medium = "blue";
