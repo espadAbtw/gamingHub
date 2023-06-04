@@ -6,7 +6,7 @@ import { addFriend } from "../../store/authSlice";
 import { FlexBetween } from "../FlexBetween";
 import { RootState } from "../../store/store";
 import { Friend } from "../../utils";
-import UserImage from "../UserImage";
+import { UserImage } from "../UserImage";
 
 type FriendProps = {
   friendId: string;
