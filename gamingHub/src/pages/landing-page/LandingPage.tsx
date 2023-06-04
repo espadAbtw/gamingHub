@@ -4,7 +4,6 @@ import { Navbar } from "../../components";
 import { useSelector } from "react-redux";
 
 export const LandingPage: React.FC = () => {
-
   const state = useSelector((state) => state);
   useEffect(() => {
     console.log(state);
@@ -51,5 +50,4 @@ export const LandingPage: React.FC = () => {
       </div>
     </>
   );
-
 };

@@ -10,25 +10,40 @@ import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "../WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "state";
 import { RootState } from "../../store/store";
+import { Post } from "../../utils/types/post";
 
-export const PostWidget = ({
-  postId,
-  postUserId,
+type PostProps = {
+  _id: string;
+  userID: string;
+  name: string;
+  content: string;
+  imagePath: string;
+  userimagePath: string;
+  category: string;
+  likes: String[];
+};
+
+export const PostWidget: React.FC<PostProps> = ({
+  _id,
+  userID,
   name,
-  description,
-  location,
-  picturePath,
-  userPicturePath,
+  content,
+  imagePath,
+  userimagePath,
   likes,
-  comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => state.user?.resetToken);
   const loggedInUserId = useSelector((state: RootState) => state.user?._id);
-  const isLiked = Boolean(likes[loggedInUserId]);
+  let isLiked = false;
+  if (loggedInUserId) {
+    isLiked = likes.includes(loggedInUserId);
+  } else {
+    isLiked = false;
+  }
+
   const likeCount = Object.keys(likes).length;
 
   const { palette } = useTheme();
@@ -36,36 +51,35 @@ export const PostWidget = ({
   const primary = palette.primary.main;
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
-    const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+    // const response = await fetch(`http://localhost:3001/posts/${_id}/like`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ userId: loggedInUserId }),
+    // });
+    // const updatedPost = await response.json();
+    // dispatch(setPost({ post: updatedPost }));
   };
 
   return (
     <WidgetWrapper m="2rem 0">
       <FriendWidget
-        friendId={postUserId}
+        friendId={userID}
         name={name}
-        subtitle={location}
-        userPicturePath={userPicturePath}
+        userPicturePath={userimagePath}
       />
       <Typography color={main} sx={{ mt: "1rem" }}>
-        {description}
+        {content}
       </Typography>
-      {picturePath && (
+      {imagePath && (
         <img
           width="100%"
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${picturePath}`}
+          src={`http://localhost:3001/assets/${imagePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">
@@ -85,7 +99,7 @@ export const PostWidget = ({
             <IconButton onClick={() => setIsComments(!isComments)}>
               <ChatBubbleOutlineOutlined />
             </IconButton>
-            <Typography>{comments.length}</Typography>
+            {/* <Typography>{comments.length}</Typography> */}
           </FlexBetween>
         </FlexBetween>
 
@@ -93,7 +107,7 @@ export const PostWidget = ({
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
-      {isComments && (
+      {/* {isComments && (
         <Box mt="0.5rem">
           {comments.map((comment, i) => (
             <Box key={`${name}-${i}`}>
@@ -105,7 +119,7 @@ export const PostWidget = ({
           ))}
           <Divider />
         </Box>
-      )}
+      )} */}
     </WidgetWrapper>
   );
 };
