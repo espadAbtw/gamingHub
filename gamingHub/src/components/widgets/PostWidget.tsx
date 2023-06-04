@@ -11,6 +11,7 @@ import { WidgetWrapper } from "../WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
+import { RootState } from "../../store/store";
 
 export const PostWidget = ({
   postId,
@@ -25,13 +26,13 @@ export const PostWidget = ({
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
-  const loggedInUserId = useSelector((state) => state.user._id);
+  const token = useSelector((state: RootState) => state.user?.resetToken);
+  const loggedInUserId = useSelector((state: RootState) => state.user?._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
 
   const { palette } = useTheme();
-  const main = palette.neutral.main;
+  const main = "white";
   const primary = palette.primary.main;
 
   const patchLike = async () => {
@@ -49,7 +50,7 @@ export const PostWidget = ({
 
   return (
     <WidgetWrapper m="2rem 0">
-      <Friend
+      <FriendWidget
         friendId={postUserId}
         name={name}
         subtitle={location}

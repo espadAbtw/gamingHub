@@ -11,14 +11,12 @@ import { UserImage } from "../UserImage";
 type FriendProps = {
   friendId: string;
   name: string;
-  subtitle: string;
   userPicturePath: string;
 };
 
 export const FriendWidget: React.FC<FriendProps> = ({
   friendId,
   name,
-  subtitle,
   userPicturePath,
 }) => {
   const dispatch = useDispatch();
@@ -70,9 +68,6 @@ export const FriendWidget: React.FC<FriendProps> = ({
             }}
           >
             {name}
-          </Typography>
-          <Typography color={medium} fontSize="0.75rem">
-            {subtitle}
           </Typography>
         </Box>
       </FlexBetween>
