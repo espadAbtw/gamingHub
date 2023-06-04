@@ -2,35 +2,57 @@ import React from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
-import { Box, Button, TextField, useMediaQuery, useTheme } from "@mui/material";
-import { LoginCredentials } from "../../../utils/types/forms";
-import { GhDataApi } from "../../../utils/axiosConfig";
-import { getLoginEndpoint } from "../../../utils";
+import {
+  Alert,
+  Box,
+  Button,
+  TextField,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import {
+  RegisterCredentials,
+} from "../../../utils/types/forms";
+import { GhDataApi, setAuthToken } from "../../../utils/axiosConfig";
+import {  getRegistrationEndpoint } from "../../../utils";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../../store/authSlice";
+import { useNavigate } from "react-router";
 
 export const SignUpForm: React.FC = () => {
-  const [pageType, setPageType] = useState("login");
+
   const { palette } = useTheme();
   const isNonMobile = useMediaQuery("(min-width:700px)");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const initialValuesLogin = {
+  const [isError, setIsError] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const initialValuesRegister = {
     name: "",
     email: "",
     password: "",
   };
 
-  const loginSchema = yup.object().shape({
+  const registerSchema = yup.object().shape({
     email: yup.string().email("invalid email").required("required"),
     password: yup.string().required("required"),
     name: yup.string().required("required"),
   });
 
-
+  const onSubmit = (values: RegisterCredentials) => {
+    GhDataApi.post(getRegistrationEndpoint(), values)
+      .then((response) => {
+        console.log(response.data.resetToken);
+        dispatch(setLogin({ user: response.data }));
+        navigate("/home");
+        setAuthToken(response.data.resetToken);
+      })
+      .catch((err: Error) => setIsError(true));
+  };
   return (
     <Formik
       onSubmit={onSubmit}
-      initialValues={initialValuesLogin}
-      validationSchema={loginSchema}
+      initialValues={initialValuesRegister}
+      validationSchema={registerSchema}
     >
       {({
         values,
@@ -39,8 +61,6 @@ export const SignUpForm: React.FC = () => {
         handleBlur,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
           <Box
@@ -85,7 +105,11 @@ export const SignUpForm: React.FC = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-
+          {isError ? (
+            <Alert severity="error">
+              Wrong register credentials, please try again
+            </Alert>
+          ) : null}
           {/* BUTTONS */}
           <Box>
             <Button

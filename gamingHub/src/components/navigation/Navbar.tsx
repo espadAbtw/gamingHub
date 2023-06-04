@@ -28,6 +28,7 @@ import { useState } from "react";
 import { RootState } from "../../store/store";
 import { setLogout } from "../../store/authSlice";
 import LogoTransparent from "../../assets/logo_transparent.png";
+import { myProfilePath } from "./paths";
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -70,7 +71,7 @@ export const Navbar: React.FC = () => {
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <Link href="">
+          <Link href={myProfilePath()}>
             <IconButton>
               <Avatar
                 sx={{

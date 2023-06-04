@@ -1,7 +1,7 @@
 export type Post = {
   _id: string;
   userID: string;
-  post: string;
+  content: string;
   imagePath: string;
   category: string;
   likes: String[];

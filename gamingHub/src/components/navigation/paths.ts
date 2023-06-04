@@ -7,7 +7,7 @@ export function logoutPath(): string {
 }
 
 export function myProfilePath(): string {
-  return "/myProfile";
+  return "/profile";
 }
 export function loginPath(): string {
   return "/";

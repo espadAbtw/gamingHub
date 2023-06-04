@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { useSelector } from "react-redux";
-import { LandingPage, MyProfile } from "./pages";
+import { LandingPage, MyProfilePage } from "./pages";
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import {
   landingPagePath,
@@ -26,7 +26,8 @@ const App: React.FC = () => {
           <Route />
           <Route
             path={myProfilePath()}
-            element={isAuth ? <MyProfile /> : <Navigate to={loginPath()} />}
+            //element={isAuth ? <MyProfilePage /> : <Navigate to={loginPath()} />}
+            element={<MyProfilePage />}
           />
         </Routes>
       </BrowserRouter>

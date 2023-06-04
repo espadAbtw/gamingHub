@@ -7,7 +7,6 @@ import {
   Button,
   TextField,
   useMediaQuery,
-  Typography,
   useTheme,
   Alert,
 } from "@mui/material";
@@ -15,7 +14,7 @@ import { LoginCredentials, getLoginEndpoint } from "../../../utils";
 import { GhDataApi, setAuthToken } from "../../../utils/axiosConfig";
 import { setLogin } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export const SignInForm: React.FC = () => {
   const { palette } = useTheme();
