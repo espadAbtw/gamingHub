@@ -10,8 +10,9 @@ import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "../WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { Post } from "../../utils/types/post";
+import { selectLoggedInUserId } from "../../store/authSlice";
 
 type PostProps = {
   _id: string;
@@ -34,9 +35,11 @@ export const PostWidget: React.FC<PostProps> = ({
   likes,
 }) => {
   const [isComments, setIsComments] = useState(false);
-  const dispatch = useDispatch();
-  const token = useSelector((state: RootState) => state.user?.resetToken);
-  const loggedInUserId = useSelector((state: RootState) => state.user?._id);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const loggedInUserId = useSelector(selectLoggedInUserId);
+
   let isLiked = false;
   if (loggedInUserId) {
     isLiked = likes.includes(loggedInUserId);

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "state";
 import { PostWidget } from "./PostWidget";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
+import { getAllPosts, selectPosts } from "../../store/postSlice";
 
 type PostsWidgetProps = {
   userId: string;
@@ -13,51 +13,55 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
   userId,
   isProfile = false,
 }) => {
-  const dispatch = useDispatch();
-  const posts = useSelector((state: RootState) => state.post);
-  const token = useSelector((state: RootState) => state.user?.resetToken);
+  const dispatch = useDispatch<AppDispatch>();
+  const posts = useSelector(selectPosts);
 
-  const getPosts = async () => {
-    const response = await fetch("http://localhost:3001/posts", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
-  };
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, []);
 
-  const getUserPosts = async () => {
-    const response = await fetch(
-      `http://localhost:3001/posts/${userId}/posts`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
-  };
+  // const getUserPosts = async () => {
+  //   const response = await fetch(
+  //     `http://localhost:3001/posts/${userId}/posts`,
+  //     {
+  //       method: "GET",
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     }
+  //   );
+  //   const data = await response.json();
+  //   dispatch(setPosts({ posts: data }));
+  // };
 
   useEffect(() => {
     if (isProfile) {
-      getUserPosts();
+      // getUserPosts();
     } else {
-      getPosts();
+      //   getPosts();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
       {posts.map(
-        ({ _id, userID, userName, post, imagePath, category, likes }) => (
+        ({
+          _id,
+          userID,
+          userName,
+          content,
+          imagePath,
+          userPicturePath,
+          likes,
+          category,
+        }) => (
           <PostWidget
-            _id={_id as string}
+            _id={_id}
             userID={userID}
             name={userName}
-            content={description as string}
-            imagePath={picturePath as string}
-            userimagePath={userPicturePath as string}
+            content={content}
+            imagePath={imagePath}
+            userimagePath={userPicturePath}
             likes={likes}
+            category={category}
           />
         )
       )}

@@ -2,6 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Post } from "../utils/types/post";
 import { GhDataApi } from "../utils/axiosConfig";
 import { getPostsEndpoint } from "../utils";
+import { RootState } from "./store";
 
 type PostState = {
   posts: Post[];
@@ -15,13 +16,16 @@ const initialState: PostState = {
   error: null,
 };
 
-export const getAllPosts = createAsyncThunk("post/getAllPosts", async () => {
-  const response = await GhDataApi.get(getPostsEndpoint());
-  return response.data;
-});
+export const getAllPosts = createAsyncThunk(
+  "postStore/getAllPosts",
+  async () => {
+    const response = await GhDataApi.get(getPostsEndpoint());
+    return response.data;
+  }
+);
 
 export const postSlice = createSlice({
-  name: "post",
+  name: "postStore",
   initialState,
   reducers: {
     addPost: (state, action: PayloadAction<Post>) => {
@@ -51,4 +55,7 @@ export const postSlice = createSlice({
 
 export const {} = postSlice.actions;
 
-export default postSlice.reducer;
+export const selectPosts = (state: PostState) => state.posts;
+
+export const postReducer = postSlice.reducer;
+export default postReducer;
