@@ -9,9 +9,9 @@ import { Friend } from "../../utils";
 import { UserImage } from "../UserImage";
 
 type FriendProps = {
-  friendId: string;
-  name: string;
-  userPicturePath: string;
+  friendId?: string;
+  name?: string;
+  userPicturePath?: string;
 };
 
 export const FriendWidget: React.FC<FriendProps> = ({
@@ -21,7 +21,6 @@ export const FriendWidget: React.FC<FriendProps> = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = useSelector((state: RootState) => state.user?.resetToken);
   const friends = useSelector((state: RootState) => state.user?.friends);
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;

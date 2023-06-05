@@ -9,9 +9,10 @@ import {
 } from "../../components";
 
 import { Box, useMediaQuery } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
 import { User } from "../../utils";
+import { getAllPosts } from "../../store/postSlice";
 
 export const LandingPage: React.FC = () => {
   const state = useSelector((state) => state);
@@ -21,14 +22,13 @@ export const LandingPage: React.FC = () => {
 
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const user = useSelector((state: RootState) => state.auth.user);
-
+  const dispatch = useDispatch<AppDispatch>();
   const { _id, userPicturePath } = user as User;
 
   return (
     <>
       <Navbar />;
       <Box>
-        <Navbar />
         <Box
           width="100%"
           padding="2rem 6%"

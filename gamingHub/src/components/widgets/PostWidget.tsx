@@ -17,12 +17,12 @@ import { selectLoggedInUserId } from "../../store/authSlice";
 type PostProps = {
   _id: string;
   userID: string;
-  name: string;
-  content: string;
-  imagePath: string;
-  userimagePath: string;
-  category: string;
-  likes: String[];
+  name?: string;
+  content?: string;
+  imagePath?: string;
+  userimagePath?: string;
+  category?: string;
+  likes?: String[];
 };
 
 export const PostWidget: React.FC<PostProps> = ({
@@ -68,11 +68,11 @@ export const PostWidget: React.FC<PostProps> = ({
 
   return (
     <WidgetWrapper m="2rem 0">
-      <FriendWidget
+      {/* <FriendWidget
         friendId={userID}
         name={name}
         userPicturePath={userimagePath}
-      />
+      /> */}
       <Typography color={main} sx={{ mt: "1rem" }}>
         {content}
       </Typography>
