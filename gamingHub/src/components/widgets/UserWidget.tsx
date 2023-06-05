@@ -4,7 +4,13 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Divider,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import { UserImage } from "../UserImage";
 import { FlexBetween } from "../FlexBetween";
 import { WidgetWrapper } from "../WidgetWrapper";
@@ -25,10 +31,8 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
 }) => {
   const { palette } = useTheme();
   const navigate = useNavigate();
-
-  const dark = "black";
-  const medium = "blue";
-  const main = "white";
+  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const main = "black";
   const user = useSelector((state: RootState) => state.auth.user);
   // const getUser = async () => {
   //   const response = await fetch(`http://localhost:3001/users/${userId}`, {
@@ -48,7 +52,13 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
   const { name, friends } = user;
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper
+      margin={isNonMobileScreens ? "0 10px 0 40px" : "0"}
+      sx={{
+        backgroundColor: "#f3f2f2",
+        color: "#161616",
+      }}
+    >
       {/* FIRST ROW */}
       <FlexBetween
         gap="0.5rem"
@@ -60,7 +70,7 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
           <Box>
             <Typography
               variant="h4"
-              color={dark}
+              color="#161616"
               fontWeight="500"
               sx={{
                 "&:hover": {
@@ -71,7 +81,7 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
             >
               {name}
             </Typography>
-            <Typography color={medium}>{friends.length} friends</Typography>
+            <Typography color="#161616">{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />
@@ -81,15 +91,9 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
 
       {/* SECOND ROW */}
 
-      <Divider />
-
-      {/* THIRD ROW */}
-
-      <Divider />
-
       {/* FOURTH ROW */}
       <Box p="1rem 0">
-        <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
+        <Typography fontSize="1rem" color="#161616" fontWeight="500" mb="1rem">
           Social Profiles
         </Typography>
 
@@ -97,13 +101,13 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
           <FlexBetween gap="1rem">
             <img src="../assets/twitter.png" alt="twitter" />
             <Box>
-              <Typography color={main} fontWeight="500">
+              <Typography color="#161616" fontWeight="500">
                 Twitter
               </Typography>
-              <Typography color={medium}>Social Network</Typography>
+              <Typography color="#6386c5">Social Network</Typography>
             </Box>
           </FlexBetween>
-          <EditOutlined sx={{ color: main }} />
+          <EditOutlined sx={{ color: "#161616" }} />
         </FlexBetween>
 
         <FlexBetween gap="1rem">
@@ -113,7 +117,7 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
               <Typography color={main} fontWeight="500">
                 Linkedin
               </Typography>
-              <Typography color={medium}>Network Platform</Typography>
+              <Typography color="#6386c5">Network Platform</Typography>
             </Box>
           </FlexBetween>
           <EditOutlined sx={{ color: main }} />

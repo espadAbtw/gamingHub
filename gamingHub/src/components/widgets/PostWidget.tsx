@@ -35,9 +35,6 @@ export const PostWidget: React.FC<PostProps> = ({
   likes,
 }) => {
   const [isComments, setIsComments] = useState(false);
-
-  const dispatch = useDispatch<AppDispatch>();
-
   const loggedInUserId = useSelector(selectLoggedInUserId);
 
   let isLiked = false;
@@ -50,7 +47,6 @@ export const PostWidget: React.FC<PostProps> = ({
   const likeCount = Object.keys(likes).length;
 
   const { palette } = useTheme();
-  const main = "white";
   const primary = palette.primary.main;
 
   const patchLike = async () => {
@@ -67,20 +63,23 @@ export const PostWidget: React.FC<PostProps> = ({
   };
 
   return (
-    <WidgetWrapper m="2rem 0">
+    <WidgetWrapper
+      m="2rem 0"
+      sx={{ backgroundColor: "#f3f2f2", color: "#161616" }}
+    >
       {/* <FriendWidget
         friendId={userID}
         name={name}
         userPicturePath={userimagePath}
       /> */}
-      <Typography color={main} sx={{ mt: "1rem" }}>
+      <Typography color={"#161616"} sx={{ mt: "1rem" }}>
         {content}
       </Typography>
       {imagePath && (
         <img
           width="100%"
           height="auto"
-          alt="post"
+          alt="#161616"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
           src={`http://localhost:3001/assets/${imagePath}`}
         />

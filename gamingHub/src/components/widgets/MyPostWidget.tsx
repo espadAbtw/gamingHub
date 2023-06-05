@@ -38,7 +38,7 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
   const { palette } = useTheme();
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-  const mediumMain = "white";
+  const mediumMain = "#161616";
   const medium = "blue";
 
   const handlePost = async () => {
@@ -61,7 +61,7 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
   };
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper sx={{ backgroundColor: "#f3f2f2", color: "#161616" }}>
       <FlexBetween gap="1.5rem">
         <UserImage image={picturePath} size="60px" />
         <InputBase
@@ -70,7 +70,7 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
           value={post}
           sx={{
             width: "100%",
-            backgroundColor: "blue",
+            backgroundColor: "#dde3ed",
             borderRadius: "2rem",
             padding: "1rem 2rem",
           }}
@@ -139,23 +139,23 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
         {isNonMobileScreens ? (
           <>
             <FlexBetween gap="0.25rem">
-              <GifBoxOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Clip</Typography>
+              <GifBoxOutlined sx={{ color: "#161616" }} />
+              <Typography color={"#161616"}>Clip</Typography>
             </FlexBetween>
 
             <FlexBetween gap="0.25rem">
-              <AttachFileOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Attachment</Typography>
+              <AttachFileOutlined sx={{ color: "#161616" }} />
+              <Typography color={"#161616"}>Attachment</Typography>
             </FlexBetween>
 
             <FlexBetween gap="0.25rem">
-              <MicOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Audio</Typography>
+              <MicOutlined sx={{ color: "#161616" }} />
+              <Typography color={"#161616"}>Audio</Typography>
             </FlexBetween>
           </>
         ) : (
           <FlexBetween gap="0.25rem">
-            <MoreHorizOutlined sx={{ color: mediumMain }} />
+            <MoreHorizOutlined sx={{ color: "#161616" }} />
           </FlexBetween>
         )}
 
@@ -163,8 +163,8 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
           disabled={!post}
           onClick={handlePost}
           sx={{
-            color: "blue",
-            backgroundColor: palette.primary.main,
+            color: "#505050 !important",
+            backgroundColor: "#a2bcd7",
             borderRadius: "3rem",
           }}
         >
