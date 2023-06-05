@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User } from "../utils/types/user";
+import { useSelector } from "react-redux";
 
 type AuthState = {
   user: User | null;
@@ -27,4 +28,6 @@ export const authSlice = createSlice({
   },
 });
 export const { setLogin, setLogout, addFriend } = authSlice.actions;
+export const selectLoggedInUserId = (state: AuthState) => state.user?._id;
+
 export default authSlice.reducer;

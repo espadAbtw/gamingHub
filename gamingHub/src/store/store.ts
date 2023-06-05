@@ -1,10 +1,12 @@
-import { ThunkAction, configureStore } from "@reduxjs/toolkit";
-import AppThunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
-import { useSelector } from "react-redux";
+import postReducer from "./postSlice";
 
 const store = configureStore({
-  reducer: authSlice.reducer,
+  reducer: {
+    auth: authSlice.reducer,
+    posts: postReducer,
+  },
 });
 
 export default store;
@@ -13,4 +15,3 @@ export default store;
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
-
