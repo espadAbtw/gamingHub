@@ -1,8 +1,6 @@
-import { ThunkAction, configureStore } from "@reduxjs/toolkit";
-import AppThunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./authSlice";
-import { useSelector } from "react-redux";
-import postSlice, { postReducer } from "./postSlice";
+import postReducer from "./postSlice";
 
 const store = configureStore({
   reducer: {

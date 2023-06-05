@@ -12,7 +12,7 @@ import { RootState } from "./store/store";
 import { SignForm } from "./components";
 
 const App: React.FC = () => {
-  const isAuth = Boolean(useSelector((state: RootState) => state.user));
+  const isAuth = Boolean(useSelector((state: RootState) => state.auth.user));
 
   return (
     <div className="App">
