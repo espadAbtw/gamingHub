@@ -9,9 +9,9 @@ import {
 } from "../../components";
 
 import { Box, useMediaQuery } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 import { User } from "../../utils";
+import { selectUser } from "../../store/authSlice";
 
 export const LandingPage: React.FC = () => {
   const state = useSelector((state) => state);
@@ -20,7 +20,7 @@ export const LandingPage: React.FC = () => {
   }, [state]);
 
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector(selectUser);
   const { _id, userPicturePath } = user as User;
 
   return (

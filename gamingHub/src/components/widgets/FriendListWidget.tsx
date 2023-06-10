@@ -1,10 +1,11 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { FriendWidget } from "./FriendWidget";
-import { WidgetWrapper } from "../WidgetWrapper";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { WidgetWrapper } from "./WidgetWrapper";
+
+import { useSelector } from "react-redux";
 // import { addFriends } from "state";
-import { RootState } from "../../store/store";
+
+import { selectUser } from "../../store/authSlice";
 
 type FriendListWidgetProps = {
   userId: string;
@@ -13,27 +14,11 @@ type FriendListWidgetProps = {
 export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
   userId,
 }) => {
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const token = useSelector((state: RootState) => state.user?.resetToken);
-  const friends = useSelector((state: RootState) => state.user?.friends);
-
-  const getFriends = async () => {
-    // const response = await fetch(
-    //   `http://localhost:3001/users/${userId}/friends`,
-    //   {
-    //     method: "GET",
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   }
-    // );
-    // const data = await response.json();
-    // dispatch(addFriends({ friends: data }));
-  };
-
-  useEffect(() => {
-    getFriends();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  const user = useSelector(selectUser);
+  const friends = user?.friends;
+  console.log(userId);
   return (
     <WidgetWrapper
       margin={isNonMobileScreens ? "0 40px 0 10px" : "0"}

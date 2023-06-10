@@ -1,10 +1,7 @@
 import {
   EditOutlined,
   DeleteOutlined,
-  AttachFileOutlined,
-  GifBoxOutlined,
   ImageOutlined,
-  MicOutlined,
   MoreHorizOutlined,
 } from "@mui/icons-material";
 import {
@@ -19,11 +16,9 @@ import {
 } from "@mui/material";
 import FlexBetween from "../structure/FlexBetween";
 import Dropzone from "react-dropzone";
-import { UserImage } from "../UserImage";
-import { WidgetWrapper } from "../WidgetWrapper";
+import { UserImage } from "./UserImage";
+import { WidgetWrapper } from "./WidgetWrapper";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { image } from "../../utils";
 
 type MyPostWidgetProps = {
@@ -31,7 +26,6 @@ type MyPostWidgetProps = {
 };
 
 export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
-  const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState<image | null>(null);
   const [post, setPost] = useState("");
@@ -84,7 +78,6 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
           p="1rem"
         >
           <Dropzone
-            acceptedFiles=".jpg,.jpeg,.png"
             multiple={false}
             onDrop={(acceptedFiles: Array<any>) =>
               setSelectedImage(acceptedFiles[0])

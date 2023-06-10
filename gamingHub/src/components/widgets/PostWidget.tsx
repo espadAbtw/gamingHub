@@ -4,25 +4,24 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { IconButton, Typography, useTheme } from "@mui/material";
 import { FlexBetween } from "./FlexBetween";
 import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "./WidgetWrapper";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { Post } from "../../utils/types/post";
+import { useSelector } from "react-redux";
+
 import { selectLoggedInUserId } from "../../store/authSlice";
 
 type PostProps = {
   _id: string;
   userID: string;
-  name?: string;
-  content?: string;
-  imagePath?: string;
-  userimagePath?: string;
+  name: string;
+  content: string;
+  imagePath: string;
+  userimagePath: string;
   category?: string;
-  likes?: String[];
+  likes: String[];
 };
 
 export const PostWidget: React.FC<PostProps> = ({
@@ -36,12 +35,14 @@ export const PostWidget: React.FC<PostProps> = ({
 }) => {
   const [isComments, setIsComments] = useState(false);
   const loggedInUserId = useSelector(selectLoggedInUserId);
-
+  console.log(_id);
   let isLiked = false;
-  if (loggedInUserId) {
-    isLiked = likes.includes(loggedInUserId);
-  } else {
-    isLiked = false;
+  if (likes) {
+    if (loggedInUserId) {
+      isLiked = likes.includes(loggedInUserId);
+    } else {
+      isLiked = false;
+    }
   }
 
   const likeCount = Object.keys(likes).length;

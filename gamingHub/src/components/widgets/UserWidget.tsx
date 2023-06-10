@@ -1,9 +1,4 @@
-import {
-  ManageAccountsOutlined,
-  EditOutlined,
-  LocationOnOutlined,
-  WorkOutlineOutlined,
-} from "@mui/icons-material";
+import { ManageAccountsOutlined } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -11,14 +6,14 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { UserImage } from "../UserImage";
-import { FlexBetween } from "../FlexBetween";
-import { WidgetWrapper } from "../WidgetWrapper";
+import { UserImage } from "./UserImage";
+import { FlexBetween } from "./FlexBetween";
+import { WidgetWrapper } from "./WidgetWrapper";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../store/store";
-import { User } from "../../utils";
+
+import { selectUser } from "../../store/authSlice";
 
 type UserWidgetProps = {
   userId: string;
@@ -32,8 +27,7 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
   const { palette } = useTheme();
   const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const main = "black";
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector(selectUser);
   // const getUser = async () => {
   //   const response = await fetch(`http://localhost:3001/users/${userId}`, {
   //     method: "GET",

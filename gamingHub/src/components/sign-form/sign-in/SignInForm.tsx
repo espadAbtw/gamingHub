@@ -40,7 +40,7 @@ export const SignInForm: React.FC = () => {
         navigate("/home");
         setAuthToken(response.data.resetToken);
       })
-      .catch((err) => setIsError(true));
+      .catch(() => setIsError(true));
   };
   useEffect(() => {
     console.log(state);

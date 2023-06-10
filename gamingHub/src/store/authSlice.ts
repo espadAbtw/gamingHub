@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User } from "../utils/types/user";
 import { RootState } from "./store";
-import { useSelector } from "react-redux";
 
 type AuthState = {
   user: User | null;

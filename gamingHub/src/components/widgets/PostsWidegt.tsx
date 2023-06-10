@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PostWidget } from "./PostWidget";
-import { AppDispatch, RootState } from "../../store/store";
+import { AppDispatch } from "../../store/store";
 import { getAllPosts, selectPosts } from "../../store/postSlice";
 
 type PostsWidgetProps = {
@@ -15,7 +15,7 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const posts = useSelector(selectPosts);
-  console.log(userId);
+  console.log(userId, isProfile);
   console.log("to sa posty: ", posts);
 
   useEffect(() => {

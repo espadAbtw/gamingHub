@@ -1,17 +1,15 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addFriend } from "../../store/authSlice";
+import { selectUser } from "../../store/authSlice";
 import { FlexBetween } from "./FlexBetween";
-import { RootState } from "../../store/store";
-import { Friend } from "../../utils";
 import { UserImage } from "./UserImage";
 
 type FriendProps = {
   friendId?: string;
   name?: string;
-  userPicturePath?: string;
+  userPicturePath: string;
 };
 
 export const FriendWidget: React.FC<FriendProps> = ({
@@ -19,9 +17,9 @@ export const FriendWidget: React.FC<FriendProps> = ({
   name,
   userPicturePath,
 }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const friends = useSelector((state: RootState) => state.user?.friends);
+  const user = useSelector(selectUser);
+  const friends = user?.friends;
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;

@@ -10,17 +10,14 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import {
-  RegisterCredentials,
-} from "../../../utils/types/forms";
+import { RegisterCredentials } from "../../../utils/types/forms";
 import { GhDataApi, setAuthToken } from "../../../utils/axiosConfig";
-import {  getRegistrationEndpoint } from "../../../utils";
+import { getRegistrationEndpoint } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../../store/authSlice";
 import { useNavigate } from "react-router";
 
 export const SignUpForm: React.FC = () => {
-
   const { palette } = useTheme();
   const isNonMobile = useMediaQuery("(min-width:700px)");
   const [isError, setIsError] = useState(false);
@@ -46,7 +43,7 @@ export const SignUpForm: React.FC = () => {
         navigate("/home");
         setAuthToken(response.data.resetToken);
       })
-      .catch((err: Error) => setIsError(true));
+      .catch(() => setIsError(true));
   };
   return (
     <Formik

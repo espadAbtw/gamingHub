@@ -1,31 +1,19 @@
 import {
   Box,
   IconButton,
-  InputBase,
   Typography,
-  Select,
-  MenuItem,
-  FormControl,
   useMediaQuery,
   Link,
   Avatar,
   Button,
 } from "@mui/material";
-import {
-  Message,
-  EditNotifications,
-  Help,
-  Menu,
-  Person,
-  Close,
-} from "@mui/icons-material";
-import BlindIcon from "@mui/icons-material/Blind";
+import { Menu, Person, Close } from "@mui/icons-material";
+
 import FlexBetween from "../structure/FlexBetween";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useState } from "react";
-import { RootState } from "../../store/store";
 import { setLogout } from "../../store/authSlice";
 import LogoTransparent from "../../assets/logo_transparent.png";
 import { myProfilePath } from "./paths";
