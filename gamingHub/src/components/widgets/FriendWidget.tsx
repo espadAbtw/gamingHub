@@ -9,9 +9,9 @@ import { Friend } from "../../utils";
 import { UserImage } from "./UserImage";
 
 type FriendProps = {
-  friendId: string;
-  name: string;
-  userPicturePath: string;
+  friendId?: string;
+  name?: string;
+  userPicturePath?: string;
 };
 
 export const FriendWidget: React.FC<FriendProps> = ({
@@ -21,13 +21,10 @@ export const FriendWidget: React.FC<FriendProps> = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = useSelector((state: RootState) => state.user?.resetToken);
   const friends = useSelector((state: RootState) => state.user?.friends);
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
-  const main = "white";
-  const medium = "blue";
 
   const isFriend = friends?.find((friend) => friend._id === friendId);
 
@@ -45,6 +42,9 @@ export const FriendWidget: React.FC<FriendProps> = ({
     // const data = await response.json();
     // dispatch(addFriend({ friends: data }));
   };
+  if (!name) {
+    name = "user";
+  }
 
   return (
     <FlexBetween>
@@ -57,7 +57,7 @@ export const FriendWidget: React.FC<FriendProps> = ({
           }}
         >
           <Typography
-            color={main}
+            color="#161616"
             variant="h5"
             fontWeight="500"
             sx={{

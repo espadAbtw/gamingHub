@@ -5,3 +5,8 @@ export * from "./widgets/WidgetWrapper";
 export * from "./widgets/FlexBetween";
 export * from "./widgets/FriendWidget";
 export * from "./user-profile";
+export * from "./widgets/PostWidget";
+export * from "./widgets/MyPostWidget";
+export * from "./widgets/PostsWidegt";
+export * from "./widgets/FriendListWidget";
+export * from "./widgets/UserWidget";
