@@ -34,10 +34,7 @@ export const Navbar: React.FC = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
-  const fullName = `${user?.name}`;
 
   return (
     <FlexBetween padding="1rem 6%" sx={{ backgroundColor: "#f8f9fb" }}>
@@ -101,7 +98,9 @@ export const Navbar: React.FC = () => {
                 backgroundColor: "#5699db",
               },
             }}
-            onClick={() => dispatch(setLogout())}
+            onClick={() => {
+              dispatch(setLogout());
+            }}
           >
             Log Out
           </Button>

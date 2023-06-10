@@ -8,12 +8,12 @@ import {
   loginPath,
   myProfilePath,
 } from "./components/navigation/paths";
-import { RootState } from "./store/store";
 import { SignForm } from "./components";
+import { selectUser } from "./store/authSlice";
 
 const App: React.FC = () => {
-  const isAuth = Boolean(useSelector((state: RootState) => state.user));
-
+  const isAuth = useSelector(selectUser);
+  console.log(isAuth, "auth");
   return (
     <div className="App">
       <BrowserRouter>
@@ -26,8 +26,7 @@ const App: React.FC = () => {
           <Route />
           <Route
             path={myProfilePath()}
-            //element={isAuth ? <MyProfilePage /> : <Navigate to={loginPath()} />}
-            element={<MyProfilePage />}
+            element={isAuth ? <MyProfilePage /> : <Navigate to={loginPath()} />}
           />
         </Routes>
       </BrowserRouter>
