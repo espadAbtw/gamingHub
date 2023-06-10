@@ -1,19 +1,19 @@
 import React from "react";
 import "./App.css";
 import { useSelector } from "react-redux";
-import { LandingPage, MyProfile } from "./pages";
+import { LandingPage, MyProfilePage } from "./pages";
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import {
   landingPagePath,
   loginPath,
   myProfilePath,
 } from "./components/navigation/paths";
-import { RootState } from "./store/store";
 import { SignForm } from "./components";
+import { selectUser } from "./store/authSlice";
 
 const App: React.FC = () => {
-  const isAuth = Boolean(useSelector((state: RootState) => state.auth.user));
-
+  const isAuth = useSelector(selectUser);
+  console.log(isAuth, "auth");
   return (
     <div className="App">
       <BrowserRouter>
@@ -26,7 +26,7 @@ const App: React.FC = () => {
           <Route />
           <Route
             path={myProfilePath()}
-            element={isAuth ? <MyProfile /> : <Navigate to={loginPath()} />}
+            element={isAuth ? <MyProfilePage /> : <Navigate to={loginPath()} />}
           />
         </Routes>
       </BrowserRouter>

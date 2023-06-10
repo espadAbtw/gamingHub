@@ -5,9 +5,9 @@ import {
   ShareOutlined,
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
-import { FlexBetween } from "../FlexBetween";
+import { FlexBetween } from "./FlexBetween";
 import { FriendWidget } from "./FriendWidget";
-import { WidgetWrapper } from "../WidgetWrapper";
+import { WidgetWrapper } from "./WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";

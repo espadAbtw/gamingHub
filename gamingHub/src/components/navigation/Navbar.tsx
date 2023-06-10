@@ -28,15 +28,13 @@ import { useState } from "react";
 import { RootState } from "../../store/store";
 import { setLogout } from "../../store/authSlice";
 import LogoTransparent from "../../assets/logo_transparent.png";
+import { myProfilePath } from "./paths";
 
 export const Navbar: React.FC = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
-  const fullName = `${user?.name}`;
 
   return (
     <FlexBetween padding="1rem 6%" sx={{ backgroundColor: "#f8f9fb" }}>
@@ -70,7 +68,7 @@ export const Navbar: React.FC = () => {
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
-          <Link href="">
+          <Link href={myProfilePath()}>
             <IconButton>
               <Avatar
                 sx={{
@@ -100,7 +98,9 @@ export const Navbar: React.FC = () => {
                 backgroundColor: "#5699db",
               },
             }}
-            onClick={() => dispatch(setLogout())}
+            onClick={() => {
+              dispatch(setLogout());
+            }}
           >
             Log Out
           </Button>

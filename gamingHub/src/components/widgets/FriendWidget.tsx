@@ -3,10 +3,10 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addFriend } from "../../store/authSlice";
-import { FlexBetween } from "../FlexBetween";
+import { FlexBetween } from "./FlexBetween";
 import { RootState } from "../../store/store";
 import { Friend } from "../../utils";
-import { UserImage } from "../UserImage";
+import { UserImage } from "./UserImage";
 
 type FriendProps = {
   friendId?: string;
