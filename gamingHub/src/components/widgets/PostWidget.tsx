@@ -67,11 +67,13 @@ export const PostWidget: React.FC<PostProps> = ({
       m="2rem 0"
       sx={{ backgroundColor: "#f3f2f2", color: "#161616" }}
     >
-      {/* <FriendWidget
-        friendId={userID}
-        name={name}
-        userPicturePath={userimagePath}
-      /> */}
+      {
+        <FriendWidget
+          friendId={userID}
+          name={name}
+          userPicturePath={userimagePath}
+        />
+      }
       <Typography color={"#161616"} sx={{ mt: "1rem" }}>
         {content}
       </Typography>
@@ -81,7 +83,7 @@ export const PostWidget: React.FC<PostProps> = ({
           height="auto"
           alt="#161616"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${imagePath}`}
+          src={`../assets/${imagePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">

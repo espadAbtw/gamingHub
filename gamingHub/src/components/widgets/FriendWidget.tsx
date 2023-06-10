@@ -25,8 +25,6 @@ export const FriendWidget: React.FC<FriendProps> = ({
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
-  const main = "white";
-  const medium = "blue";
 
   const isFriend = friends?.find((friend) => friend._id === friendId);
 
@@ -44,6 +42,9 @@ export const FriendWidget: React.FC<FriendProps> = ({
     // const data = await response.json();
     // dispatch(addFriend({ friends: data }));
   };
+  if (!name) {
+    name = "user";
+  }
 
   return (
     <FlexBetween>
@@ -56,7 +57,7 @@ export const FriendWidget: React.FC<FriendProps> = ({
           }}
         >
           <Typography
-            color={main}
+            color="#161616"
             variant="h5"
             fontWeight="500"
             sx={{
