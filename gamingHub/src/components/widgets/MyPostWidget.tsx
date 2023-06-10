@@ -137,22 +137,7 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
         </FlexBetween>
 
         {isNonMobileScreens ? (
-          <>
-            <FlexBetween gap="0.25rem">
-              <GifBoxOutlined sx={{ color: "#161616" }} />
-              <Typography color={"#161616"}>Clip</Typography>
-            </FlexBetween>
-
-            <FlexBetween gap="0.25rem">
-              <AttachFileOutlined sx={{ color: "#161616" }} />
-              <Typography color={"#161616"}>Attachment</Typography>
-            </FlexBetween>
-
-            <FlexBetween gap="0.25rem">
-              <MicOutlined sx={{ color: "#161616" }} />
-              <Typography color={"#161616"}>Audio</Typography>
-            </FlexBetween>
-          </>
+          <></>
         ) : (
           <FlexBetween gap="0.25rem">
             <MoreHorizOutlined sx={{ color: "#161616" }} />

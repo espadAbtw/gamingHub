@@ -90,39 +90,6 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
       <Divider />
 
       {/* SECOND ROW */}
-
-      {/* FOURTH ROW */}
-      <Box p="1rem 0">
-        <Typography fontSize="1rem" color="#161616" fontWeight="500" mb="1rem">
-          Social Profiles
-        </Typography>
-
-        <FlexBetween gap="1rem" mb="0.5rem">
-          <FlexBetween gap="1rem">
-            <img src="../assets/twitter.png" alt="twitter" />
-            <Box>
-              <Typography color="#161616" fontWeight="500">
-                Twitter
-              </Typography>
-              <Typography color="#6386c5">Social Network</Typography>
-            </Box>
-          </FlexBetween>
-          <EditOutlined sx={{ color: "#161616" }} />
-        </FlexBetween>
-
-        <FlexBetween gap="1rem">
-          <FlexBetween gap="1rem">
-            <img src="../assets/linkedin.png" alt="linkedin" />
-            <Box>
-              <Typography color={main} fontWeight="500">
-                Linkedin
-              </Typography>
-              <Typography color="#6386c5">Network Platform</Typography>
-            </Box>
-          </FlexBetween>
-          <EditOutlined sx={{ color: main }} />
-        </FlexBetween>
-      </Box>
     </WidgetWrapper>
   );
 };
