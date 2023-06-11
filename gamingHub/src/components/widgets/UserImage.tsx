@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import UserImageJPG from "../../assets/user.png";
 type UserImageProps = {
-  image: string;
+  image?: string;
   size: string;
 };
 

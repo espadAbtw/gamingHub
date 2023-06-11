@@ -16,7 +16,6 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
   const dispatch = useDispatch<AppDispatch>();
   const posts = useSelector(selectPosts);
 
-  console.log("Test", userId, isProfile);
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
