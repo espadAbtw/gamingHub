@@ -11,7 +11,7 @@ import {
   Alert,
 } from "@mui/material";
 import { LoginCredentials, getLoginEndpoint } from "../../../utils";
-import { GhDataApi, setAuthToken } from "../../../utils/axiosConfig";
+import { GhDataApi } from "../../../utils/axiosConfig";
 import { setLogin } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -35,10 +35,8 @@ export const SignInForm: React.FC = () => {
   const onSubmit = (values: LoginCredentials): void => {
     GhDataApi.post(getLoginEndpoint(), values)
       .then((response) => {
-        console.log(response.data.resetToken);
         dispatch(setLogin({ user: response.data }));
         navigate("/home");
-        setAuthToken(response.data.resetToken);
       })
       .catch(() => setIsError(true));
   };

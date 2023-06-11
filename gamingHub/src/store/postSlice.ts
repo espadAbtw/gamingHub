@@ -20,7 +20,6 @@ export const getAllPosts = createAsyncThunk(
   "postStore/getAllPosts",
   async () => {
     const response = await GhDataApi.get(getPostsEndpoint());
-    console.log("posty tutaj kurwa", response);
     return response.data;
   }
 );
@@ -31,6 +30,13 @@ export const postSlice = createSlice({
   reducers: {
     addPost: (state, action: PayloadAction<Post>) => {
       state.posts.push(action.payload);
+    },
+    setPost: (state, action) => {
+      const updatedPosts = state.posts.map((post) => {
+        if (post._id === action.payload.post._id) return action.payload.post;
+        return post;
+      });
+      state.posts = updatedPosts;
     },
   },
   extraReducers: (builder) => {
@@ -54,7 +60,7 @@ export const postSlice = createSlice({
   },
 });
 
-export const {} = postSlice.actions;
+export const { setPost, addPost } = postSlice.actions;
 
 export const selectPosts = (state: RootState) => state.posts.posts;
 

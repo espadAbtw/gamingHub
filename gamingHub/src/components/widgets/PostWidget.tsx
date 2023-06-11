@@ -8,10 +8,17 @@ import { IconButton, Typography, useTheme } from "@mui/material";
 import { FlexBetween } from "./FlexBetween";
 import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "./WidgetWrapper";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { selectLoggedInUserId } from "../../store/authSlice";
+import { selectUserId, setToken } from "../../store/authSlice";
+import { GhDataApi } from "../../utils/axiosConfig";
+import { addLikeEndpoint } from "../../utils";
+import { setPost } from "../../store/postSlice";
+import { blue } from "@mui/material/colors";
+type Likes = {
+  [userId: string]: boolean;
+};
 
 type PostProps = {
   _id: string;
@@ -21,7 +28,7 @@ type PostProps = {
   imagePath: string;
   userimagePath: string;
   category?: string;
-  likes: String[];
+  likes: Likes;
 };
 
 export const PostWidget: React.FC<PostProps> = ({
@@ -34,33 +41,23 @@ export const PostWidget: React.FC<PostProps> = ({
   likes,
 }) => {
   const [isComments, setIsComments] = useState(false);
-  const loggedInUserId = useSelector(selectLoggedInUserId);
-  console.log(_id);
-  let isLiked = false;
-  if (likes) {
-    if (loggedInUserId) {
-      isLiked = likes.includes(loggedInUserId);
-    } else {
-      isLiked = false;
-    }
-  }
-
+  const loggedInUserId = useSelector(selectUserId);
+  const dispatch = useDispatch();
   const likeCount = Object.keys(likes).length;
+  const isLiked =
+    likes && loggedInUserId ? Boolean(likes[loggedInUserId]) : false;
 
-  const { palette } = useTheme();
-  const primary = palette.primary.main;
-
-  const patchLike = async () => {
-    // const response = await fetch(`http://localhost:3001/posts/${_id}/like`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ userId: loggedInUserId }),
-    // });
-    // const updatedPost = await response.json();
-    // dispatch(setPost({ post: updatedPost }));
+  const patchLike = async (): Promise<void> => {
+    dispatch(setToken());
+    const values = {
+      userId: loggedInUserId,
+    };
+    await GhDataApi.put(addLikeEndpoint(_id), values)
+      .then((response) => {
+        console.log("Like dodany");
+        dispatch(setPost({ post: response.data }));
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -92,7 +89,7 @@ export const PostWidget: React.FC<PostProps> = ({
           <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>
               {isLiked ? (
-                <FavoriteOutlined sx={{ color: primary }} />
+                <FavoriteOutlined sx={{ color: blue }} />
               ) : (
                 <FavoriteBorderOutlined />
               )}

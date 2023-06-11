@@ -13,7 +13,7 @@ import { selectUser } from "./store/authSlice";
 
 const App: React.FC = () => {
   const isAuth = useSelector(selectUser);
-  console.log(isAuth, "auth");
+
   return (
     <div className="App">
       <BrowserRouter>

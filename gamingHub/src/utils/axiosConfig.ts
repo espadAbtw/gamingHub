@@ -7,10 +7,16 @@ export const GhDataApi: AxiosInstance = axios.create({
   },
 });
 
-export const setAuthToken = (token: string | null): void => {
-  if (token) {
-    GhDataApi.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete GhDataApi.defaults.headers.common["Authorization"];
-  }
-};
+// export const setAuth = (user: User | null): void => {
+//   const dispatch = useDispatch();
+//   console.log("Jestem w auth");
+//   if (user) {
+//     GhDataApi.defaults.headers.common["Authorization"] = `${user.resetToken}`;
+//     dispatch(setLogin({ user: user }));
+//     console.log("Logowanie");
+//   } else {
+//     delete GhDataApi.defaults.headers.common["Authorization"];
+//     dispatch(setLogout());
+//     console.log("Wylogowanie");
+//   }
+// };
