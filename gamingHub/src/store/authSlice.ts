@@ -31,6 +31,7 @@ export const authSlice = createSlice({
       GhDataApi.defaults.headers.common[
         "Authorization"
       ] = `${state.user?.resetToken}`;
+      console.log("seba");
     },
   },
 });

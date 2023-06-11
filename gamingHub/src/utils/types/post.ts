@@ -1,3 +1,7 @@
+export type Likes = {
+  [userId: string]: boolean;
+};
+
 export type Post = {
   _id: string;
   userID: string | null;
@@ -6,5 +10,5 @@ export type Post = {
   imagePath: string;
   userPicturePath: string;
   category: string;
-  likes: String[];
+  likes: Likes;
 };

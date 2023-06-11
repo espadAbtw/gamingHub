@@ -5,7 +5,7 @@ import { AppDispatch } from "../../store/store";
 import { getAllPosts, selectPosts } from "../../store/postSlice";
 
 type PostsWidgetProps = {
-  userId: string;
+  userId: string | null;
   isProfile?: boolean;
 };
 

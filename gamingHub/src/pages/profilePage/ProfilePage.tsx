@@ -2,7 +2,6 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  FriendListWidget,
   MyPostWidget,
   Navbar,
   PostsWidget,
@@ -10,41 +9,26 @@ import {
 } from "../../components";
 import { GhDataApi } from "../../utils/axiosConfig";
 import { User, getUserEndpoint } from "../../utils";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../store/authSlice";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../store/authSlice";
 
 export const ProfilePage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [checkingUser, setCheckingUser] = useState<User | null>(
-    useSelector(selectUser)
-  );
 
   const { userId } = useParams();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const dispatch = useDispatch();
 
-  const getUser = async () => {
+  const getUser = () => {
     GhDataApi.get(getUserEndpoint(userId as string)).then((response) =>
       setUser(response.data)
     );
   };
 
-  // const getUser = async () => {
-  //   console.log(user);
-  //   const response = await fetch(
-  //     `https://gaminghub-backend.onrender.com/api/user/${userId}`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${(checkingUser as User).resetToken}`,
-  //       },
-  //     }
-  //   );
-  //   const data = await response.json();
-  //   setUser(data);
-  // };
-
   useEffect(() => {
+    dispatch(setToken());
     getUser();
+    console.log("mati");
   }, []);
 
   if (!user) return null;
