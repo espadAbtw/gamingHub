@@ -18,7 +18,7 @@ export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const user = useSelector(selectUser);
   const friends = user?.friends;
-  console.log(userId);
+
   return (
     <WidgetWrapper
       margin={isNonMobileScreens ? "0 40px 0 10px" : "0"}

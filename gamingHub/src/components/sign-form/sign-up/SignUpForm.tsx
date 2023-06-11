@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { RegisterCredentials } from "../../../utils/types/forms";
-import { GhDataApi, setAuthToken } from "../../../utils/axiosConfig";
+import { GhDataApi } from "../../../utils/axiosConfig";
 import { getRegistrationEndpoint } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../../store/authSlice";
@@ -38,10 +38,8 @@ export const SignUpForm: React.FC = () => {
   const onSubmit = (values: RegisterCredentials) => {
     GhDataApi.post(getRegistrationEndpoint(), values)
       .then((response) => {
-        console.log(response.data.resetToken);
         dispatch(setLogin({ user: response.data }));
         navigate("/home");
-        setAuthToken(response.data.resetToken);
       })
       .catch(() => setIsError(true));
   };
