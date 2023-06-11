@@ -16,4 +16,23 @@ export function getPostsEndpoint(): string {
 export function addLikeEndpoint(postId: string): string {
   return `/post/${postId}/likes`;
 }
-//https://gaminghub-backend.onrender.com/api/post/6441984b38033a2445ca17fa/likes
+
+export function getCommentsEndpoint(postId: string): string {
+  return `/comment/${postId}/comments`;
+}
+
+export function addFriendEndpoint(
+  userId: string | undefined,
+  friendId: string | undefined
+): string {
+  return `/user/${userId}/${friendId}`;
+}
+export function getFriendsEndpoint(userId: string | undefined): string {
+  return `/user/${userId}/friends`;
+}
+export function deleteFriendEndpoint(
+  userId: string | undefined,
+  friendId: string | undefined
+): string {
+  return `/user/delete/${userId}/${friendId}`;
+}

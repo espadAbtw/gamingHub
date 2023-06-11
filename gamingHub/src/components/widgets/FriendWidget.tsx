@@ -1,15 +1,17 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import {  useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectUser } from "../../store/authSlice";
+import { selectUser, setFriends, setToken } from "../../store/authSlice";
 import { FlexBetween } from "./FlexBetween";
 import { UserImage } from "./UserImage";
+import { addFriendEndpoint, deleteFriendEndpoint } from "../../utils";
+import { GhDataApi } from "../../utils/axiosConfig";
 
 type FriendProps = {
   friendId?: string;
   name?: string;
-  userPicturePath: string;
+  userPicturePath?: string;
 };
 
 export const FriendWidget: React.FC<FriendProps> = ({
@@ -17,32 +19,37 @@ export const FriendWidget: React.FC<FriendProps> = ({
   name,
   userPicturePath,
 }) => {
-  const navigate = useNavigate();
-  const user = useSelector(selectUser);
-  const friends = user?.friends;
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
 
-  const isFriend = friends?.find((friend) => friend._id === friendId);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector(selectUser);
+  let arrayFriends;
+  if (user) {
+    arrayFriends = user.friends;
+  }
+
+  const isFriend = arrayFriends?.find((item: string) => item === friendId);
+
+  console.log(isFriend, arrayFriends, friendId);
 
   const patchFriend = async () => {
-    // const response = await fetch(
-    //   `http://localhost:3001/users/${_id}/${friendId}`,
-    //   {
-    //     method: "PATCH",
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // );
-    // const data = await response.json();
-    // dispatch(addFriend({ friends: data }));
+    dispatch(setToken());
+    if (!isFriend) {
+      await GhDataApi.put(addFriendEndpoint(user?._id, friendId)).then(
+        (response) => dispatch(setFriends({ friends: response.data }))
+      );
+    } else {
+      await GhDataApi.delete(deleteFriendEndpoint(user?._id, friendId)).then(
+        (response) => {
+          dispatch(setFriends({ friends: response.data }));
+        }
+      );
+    }
   };
-  if (!name) {
-    name = "user";
-  }
 
   return (
     <FlexBetween>

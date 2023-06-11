@@ -2,13 +2,16 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User } from "../utils/types/user";
 import { RootState } from "./store";
 import { GhDataApi } from "../utils/axiosConfig";
+import { Friend } from "../utils";
 
 type AuthState = {
   user: User | null;
+  friends: Friend[] | null;
 };
 
 const initialState: AuthState = {
   user: null,
+  friends: null,
 };
 
 export const authSlice = createSlice({
@@ -33,10 +36,15 @@ export const authSlice = createSlice({
       ] = `${state.user?.resetToken}`;
       console.log("seba");
     },
+    setFriends: (state, action) => {
+      state.friends = action.payload;
+    },
   },
 });
 export const selectUser = (state: RootState) => state.user.user;
-export const { setLogin, setLogout, addFriend, setToken } = authSlice.actions;
+export const selectFriends = (state: RootState) => state.user.friends;
+export const { setLogin, setLogout, addFriend, setToken, setFriends } =
+  authSlice.actions;
 export const authReducer = authSlice.reducer;
 export const selectUserId = (state: RootState) => state.user.user?._id;
 export default authSlice.reducer;

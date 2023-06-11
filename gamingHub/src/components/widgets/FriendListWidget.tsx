@@ -2,10 +2,13 @@ import { Box, Typography, useMediaQuery } from "@mui/material";
 import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "./WidgetWrapper";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { addFriends } from "state";
 
-import { selectUser } from "../../store/authSlice";
+import { selectFriends, setFriends } from "../../store/authSlice";
+import { GhDataApi } from "../../utils/axiosConfig";
+import { getFriendsEndpoint } from "../../utils";
+import { useEffect } from "react";
 
 type FriendListWidgetProps = {
   userId: string;
@@ -16,8 +19,17 @@ export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
 }) => {
   //const dispatch = useDispatch();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const user = useSelector(selectUser);
-  const friends = user?.friends;
+  const dispatch = useDispatch();
+  const getFriends = async () => {
+    await GhDataApi.get(getFriendsEndpoint(userId)).then((response) => {
+      dispatch(setFriends(response.data));
+    });
+  };
+  useEffect(() => {
+    getFriends();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const friends = useSelector(selectFriends);
 
   return (
     <WidgetWrapper

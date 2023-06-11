@@ -4,19 +4,25 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { IconButton, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Input, Typography } from "@mui/material";
 import { FlexBetween } from "./FlexBetween";
 import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "./WidgetWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectUserId, setToken } from "../../store/authSlice";
 import { GhDataApi } from "../../utils/axiosConfig";
-import { addLikeEndpoint } from "../../utils";
+import {
+  User,
+  addLikeEndpoint,
+  getCommentsEndpoint,
+  getUserEndpoint,
+} from "../../utils";
 import { setPost } from "../../store/postSlice";
 import { blue } from "@mui/material/colors";
 import { Likes } from "../../utils/types/post";
+import { Comment } from "../../utils/types/comment";
 
 type PostProps = {
   _id: string;
@@ -38,6 +44,8 @@ export const PostWidget: React.FC<PostProps> = ({
   userimagePath,
   likes,
 }) => {
+  const [friendData, setFriendData] = useState<User>();
+  const [comments, setComments] = useState<Comment[]>([]);
   const [isComments, setIsComments] = useState(false);
   const loggedInUserId = useSelector(selectUserId);
   const dispatch = useDispatch();
@@ -45,17 +53,43 @@ export const PostWidget: React.FC<PostProps> = ({
   const isLiked =
     likes && loggedInUserId ? Boolean(likes[loggedInUserId]) : false;
 
+  const getFriendData = async (): Promise<void> => {
+    dispatch(setToken);
+    try {
+      const response = await GhDataApi.get(getUserEndpoint(userID));
+      const data = response.data;
+      setFriendData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getComments = async (): Promise<void> => {
+    try {
+      const response = await GhDataApi.get(getCommentsEndpoint(_id));
+      const commentsData = response.data;
+      setComments(commentsData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const patchLike = async (): Promise<void> => {
     const values = {
       userId: loggedInUserId,
     };
-    await GhDataApi.put(addLikeEndpoint(_id), values)
-      .then((response) => {
-        console.log("Like dodany");
-        dispatch(setPost({ post: response.data }));
-      })
-      .catch((error) => console.log(error));
+    try {
+      const response = await GhDataApi.patch(addLikeEndpoint(_id), values);
+      dispatch(setPost({ post: response.data }));
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    getComments();
+    getFriendData();
+  }, []);
 
   return (
     <WidgetWrapper
@@ -64,9 +98,9 @@ export const PostWidget: React.FC<PostProps> = ({
     >
       {
         <FriendWidget
-          friendId={userID}
-          name={name}
-          userPicturePath={userimagePath}
+          friendId={friendData?._id}
+          name={friendData?.name}
+          userPicturePath={friendData?.userPicturePath}
         />
       }
       <Typography color={"#161616"} sx={{ mt: "1rem" }}>
@@ -98,7 +132,7 @@ export const PostWidget: React.FC<PostProps> = ({
             <IconButton onClick={() => setIsComments(!isComments)}>
               <ChatBubbleOutlineOutlined />
             </IconButton>
-            {/* <Typography>{comments.length}</Typography> */}
+            <Typography>{comments.length}</Typography>
           </FlexBetween>
         </FlexBetween>
 
@@ -106,19 +140,21 @@ export const PostWidget: React.FC<PostProps> = ({
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
-      {/* {isComments && (
+      {isComments && (
         <Box mt="0.5rem">
-          {comments.map((comment, i) => (
+          {comments.map((comment: Comment, i) => (
             <Box key={`${name}-${i}`}>
               <Divider />
-              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                {comment}
+              {/* <UserImage image={comment.userID} size="10px" /> */}
+              <Typography sx={{ color: blue, m: "0.5rem 0", pl: "1rem" }}>
+                {comment.userName} : {comment.content}
               </Typography>
             </Box>
           ))}
           <Divider />
+          <Input />
         </Box>
-      )} */}
+      )}
     </WidgetWrapper>
   );
 };
