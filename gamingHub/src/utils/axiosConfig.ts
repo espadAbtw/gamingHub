@@ -7,6 +7,13 @@ export const GhDataApi: AxiosInstance = axios.create({
   },
 });
 
+export const GhDataApiFile: AxiosInstance = axios.create({
+  baseURL: "https://gaminghub-backend.onrender.com/api",
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
+
 // export const setAuth = (user: User | null): void => {
 //   const dispatch = useDispatch();
 //   console.log("Jestem w auth");

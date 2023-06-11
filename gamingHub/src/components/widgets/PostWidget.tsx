@@ -11,7 +11,7 @@ import { WidgetWrapper } from "./WidgetWrapper";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectUserId, setToken } from "../../store/authSlice";
+import { selectUserId } from "../../store/authSlice";
 import { GhDataApi } from "../../utils/axiosConfig";
 import {
   User,

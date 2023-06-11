@@ -17,6 +17,18 @@ export function addLikeEndpoint(postId: string): string {
   return `/post/${postId}/likes`;
 }
 
+export function deleteAccountEndpoint(id: string): string {
+  return `/user/deleteUser/${id}`;
+}
+
+export function addPhotoProfileEndpoint(id: string): string {
+  return `/user/addPhotoProfile/${id}`;
+}
+export function addPhotoProfileCluudEndpoint(): string {
+  return `/upload`;
+}
+
+
 export function getCommentsEndpoint(postId: string): string {
   return `/comment/${postId}/comments`;
 }
@@ -36,3 +48,4 @@ export function deleteFriendEndpoint(
 ): string {
   return `/user/delete/${userId}/${friendId}`;
 }
+

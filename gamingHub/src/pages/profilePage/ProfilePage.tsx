@@ -28,7 +28,6 @@ export const ProfilePage: React.FC = () => {
   useEffect(() => {
     dispatch(setToken());
     getUser();
-    console.log("mati");
   }, []);
 
   if (!user) return null;
@@ -37,7 +36,6 @@ export const ProfilePage: React.FC = () => {
     <Box>
       <Navbar />
       <Box
-        width="100%"
         padding="2rem 6%"
         display={isNonMobileScreens ? "flex" : "block"}
         gap="2rem"

@@ -145,7 +145,7 @@ export const Navbar: React.FC = () => {
                   backgroundColor: "#c9d2e4",
                 },
               }}
-              onClick={() => dispatch(setLogout())}
+              onClick={() => navigate("/profile")}
             >
               My Profile
             </Button>
