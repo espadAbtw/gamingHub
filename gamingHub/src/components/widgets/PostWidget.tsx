@@ -4,11 +4,11 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { IconButton, Typography, useTheme } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { FlexBetween } from "./FlexBetween";
 import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "./WidgetWrapper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectUserId, setToken } from "../../store/authSlice";
@@ -16,9 +16,7 @@ import { GhDataApi } from "../../utils/axiosConfig";
 import { addLikeEndpoint } from "../../utils";
 import { setPost } from "../../store/postSlice";
 import { blue } from "@mui/material/colors";
-type Likes = {
-  [userId: string]: boolean;
-};
+import { Likes } from "../../utils/types/post";
 
 type PostProps = {
   _id: string;
@@ -48,7 +46,6 @@ export const PostWidget: React.FC<PostProps> = ({
     likes && loggedInUserId ? Boolean(likes[loggedInUserId]) : false;
 
   const patchLike = async (): Promise<void> => {
-    dispatch(setToken());
     const values = {
       userId: loggedInUserId,
     };

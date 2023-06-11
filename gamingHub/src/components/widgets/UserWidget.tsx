@@ -9,14 +9,16 @@ import {
 import { UserImage } from "./UserImage";
 import { FlexBetween } from "./FlexBetween";
 import { WidgetWrapper } from "./WidgetWrapper";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { selectUser } from "../../store/authSlice";
+import { selectUser, setToken } from "../../store/authSlice";
+import { GhDataApi } from "../../utils/axiosConfig";
+import { User, getUserEndpoint } from "../../utils";
 
 type UserWidgetProps = {
-  userId: string;
+  userId?: string;
   picturePath: string;
 };
 
@@ -27,15 +29,19 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
   const { palette } = useTheme();
   const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const user = useSelector(selectUser);
-  // const getUser = async () => {
-  //   const response = await fetch(`http://localhost:3001/users/${userId}`, {
-  //     method: "GET",
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   });
-  //   const data = await response.json();
-  //   setUser(data);
-  // };
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(setToken());
+      GhDataApi.get(getUserEndpoint(userId as string)).then((response) =>
+        setUser(response.data)
+      );
+    } else {
+      setUser(useSelector(selectUser));
+    }
+  }, []);
 
   useEffect(() => {}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
