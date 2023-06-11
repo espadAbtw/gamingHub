@@ -22,9 +22,13 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
     dispatch(getAllPosts());
   }, [dispatch]);
 
+  const filteredPosts = userId
+    ? posts.filter((post) => post.userID === userId)
+    : posts;
+
   return (
     <>
-      {posts.map(
+      {filteredPosts.map(
         ({
           _id,
           userID,
@@ -38,7 +42,7 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
           <PostWidget
             key={_id}
             _id={_id}
-            userID={userID}
+            userID={userID as string}
             name={userName}
             content={content}
             imagePath={imagePath}

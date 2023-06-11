@@ -50,7 +50,7 @@ export const LandingPage: React.FC = () => {
             mt={isNonMobileScreens ? undefined : "2rem"}
           >
             <MyPostWidget picturePath={userPicturePath} />
-            <PostsWidget userId={_id} />
+            <PostsWidget userId={null} />
           </Box>
           {isNonMobileScreens && (
             <Box flexBasis="26%">
