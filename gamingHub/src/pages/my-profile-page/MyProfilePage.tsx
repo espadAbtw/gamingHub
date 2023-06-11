@@ -10,10 +10,15 @@ import {
 } from "@mui/material";
 import { Navbar } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken } from "../../store/authSlice";
-import { GhDataApi } from "../../utils/axiosConfig";
+import { setToken, setUserPicturePath } from "../../store/authSlice";
+import { GhDataApi, GhDataApiFile } from "../../utils/axiosConfig";
 import { selectUser } from "../../store/authSlice";
-import { User } from "../../utils";
+import {
+  User,
+  addPhotoProfileCluudEndpoint,
+  addPhotoProfileEndpoint,
+  deleteAccountEndpoint,
+} from "../../utils";
 
 export const MyProfilePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,16 +26,18 @@ export const MyProfilePage: React.FC = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const [name, setName] = useState((user as User).name as string);
   const [email, setEmail] = useState((user as User).email as string);
-  const [profileImage, setProfileImage] = useState<string | null>(
+  const [profileImage, setProfileImage] = useState<string | null | undefined>(
     "src/assets/user.png"
   );
   const [resetModalOpen, setResetModalOpen] = useState(false);
   const [emailModal, setEmailModal] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  let formData = new FormData();
   useEffect(() => {
     dispatch(setToken());
+    console.log(user?.userPicturePath);
+    setProfileImage(user?.userPicturePath);
   }, []);
 
   const handleResetPassword = () => {
@@ -42,7 +49,7 @@ export const MyProfilePage: React.FC = () => {
   };
 
   const handleDeleteAccount = () => {
-    // Logic for deleting the account
+    GhDataApi.delete(deleteAccountEndpoint(user?._id as string));
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,13 +62,26 @@ export const MyProfilePage: React.FC = () => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
+
+    console.log(file);
     if (file) {
-      // Process and save the image
+      formData.append("file", file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfileImage(reader.result as string);
       };
       reader.readAsDataURL(file);
+      dispatch(setToken());
+
+      GhDataApiFile.post(addPhotoProfileCluudEndpoint(), formData).then(
+        (response) => {
+          GhDataApi.put(addPhotoProfileEndpoint(user?._id as string), {
+            userPicturePath: response.data.url,
+          });
+          dispatch(setUserPicturePath(response.data.url));
+          alert("Photo changed successfully");
+        }
+      );
     }
   };
 
@@ -113,7 +133,7 @@ export const MyProfilePage: React.FC = () => {
               />
             )}
             <Typography variant="h5" m={"10px"}>
-              Add photo:
+              Edit photo:
             </Typography>
             <label
               htmlFor="fileInput"
