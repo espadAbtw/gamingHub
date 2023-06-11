@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Navbar } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { setToken, setUserPicturePath } from "../../store/authSlice";
+import { setLogout, setToken, setUserPicturePath } from "../../store/authSlice";
 import { GhDataApi, GhDataApiFile } from "../../utils/axiosConfig";
 import { selectUser } from "../../store/authSlice";
 import {
@@ -50,6 +50,7 @@ export const MyProfilePage: React.FC = () => {
 
   const handleDeleteAccount = () => {
     GhDataApi.delete(deleteAccountEndpoint(user?._id as string));
+    dispatch(setLogout());
   };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
