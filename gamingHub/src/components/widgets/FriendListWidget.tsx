@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { addFriend, selectFriends, setFriends } from "../../store/authSlice";
 import { GhDataApi } from "../../utils/axiosConfig";
-import { Friend, getFriendsEndpoint } from "../../utils";
-import { useEffect, useState } from "react";
+import { getFriendsEndpoint } from "../../utils";
+import { useEffect } from "react";
 
 type FriendListWidgetProps = {
   userId: string;
@@ -26,7 +26,7 @@ export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
     });
   };
   const friends = useSelector(selectFriends);
-  console.log("Friends z komponentu: ", friends);
+
   useEffect(() => {
     getFriends();
   }, [addFriend]); // eslint-disable-line react-hooks/exhaustive-deps

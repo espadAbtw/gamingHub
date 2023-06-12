@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
 import { LoginCredentials, getLoginEndpoint } from "../../../utils";
 import { GhDataApi } from "../../../utils/axiosConfig";
 import { setLogin } from "../../../store/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 export const SignInForm: React.FC = () => {
@@ -26,7 +26,7 @@ export const SignInForm: React.FC = () => {
     email: "",
     password: "",
   };
-  const state = useSelector((state) => state);
+
   const loginSchema = yup.object().shape({
     email: yup.string().email("Invalid email").required("Email required"),
     password: yup.string().required("Password required"),
@@ -40,9 +40,6 @@ export const SignInForm: React.FC = () => {
       })
       .catch(() => setIsError(true));
   };
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   return (
     <Formik

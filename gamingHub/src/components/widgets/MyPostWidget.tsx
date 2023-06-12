@@ -19,55 +19,32 @@ import Dropzone from "react-dropzone";
 import { UserImage } from "./UserImage";
 import { WidgetWrapper } from "./WidgetWrapper";
 import { useState } from "react";
-import {
-  addPhotoProfileCluudEndpoint,
-  addPostEndpoint,
-  image,
-} from "../../utils";
+import { addPhotoProfileCluudEndpoint, addPostEndpoint } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../store/authSlice";
 import { GhDataApi, GhDataApiFile } from "../../utils/axiosConfig";
-import { addPost, setPosts } from "../../store/postSlice";
+import { addPost } from "../../store/postSlice";
 
 type MyPostWidgetProps = {
   picturePath: string;
 };
-type FileForm = {
-  lastModified: number;
-  lastModifiedDate: Date;
-  name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-};
+
 export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
   const [isImage, setIsImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const user = useSelector(selectUser);
+
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = "#161616";
   const medium = "blue";
   const dispatch = useDispatch();
-  const handlePost = async () => {
-    // const formData = new FormData();
-    // formData.append("userId", _id as string);
-    // formData.append("description", post);
-    // if (selectedImage) {
-    //   formData.append("picture", selectedImage);
-    //   formData.append("picturePath", selectedImage.name);
-    // }
-    // const response = await fetch(`http://localhost:3001/posts`, {
-    //   method: "POST",
-    //   headers: { Authorization: `Bearer ${token}` },
-    //   body: formData,
-    // });
 
+  const handlePost = async () => {
     const formData = new FormData();
     let imgPath = "";
     if (selectedImage) {
-      console.log(selectedImage);
       formData.append("file", selectedImage);
       const imgUploadResponse = await GhDataApiFile.post(
         addPhotoProfileCluudEndpoint(),

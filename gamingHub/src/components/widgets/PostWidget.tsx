@@ -2,7 +2,6 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-  ShareOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -10,7 +9,6 @@ import {
   Divider,
   IconButton,
   Input,
-  TextField,
   Typography,
 } from "@mui/material";
 import { FlexBetween } from "./FlexBetween";
@@ -50,7 +48,7 @@ export const PostWidget: React.FC<PostProps> = ({
   name,
   content,
   imagePath,
-  userimagePath,
+
   likes,
 }) => {
   const [addCommentContent, setAddCommentContent] = useState<string>("");

@@ -3,7 +3,6 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  addFriend,
   removeFriend,
   selectUser,
   setFriends,
@@ -47,7 +46,6 @@ export const FriendWidget: React.FC<FriendProps> = ({
       await GhDataApi.put(addFriendEndpoint(user?._id, friendId)).then(
         (response) => {
           const updatedFriends = response.data;
-          console.log(response.data, "response");
           dispatch(setFriends(updatedFriends));
           dispatch(addUserFriend(friendId));
         }
@@ -56,7 +54,7 @@ export const FriendWidget: React.FC<FriendProps> = ({
       await GhDataApi.delete(deleteFriendEndpoint(user?._id, friendId)).then(
         (response) => {
           const updatedFriends = response.data;
-          console.log(response.data, "response"); 
+
           dispatch(setFriends(updatedFriends));
           dispatch(removeFriend(friendId)); 
         }

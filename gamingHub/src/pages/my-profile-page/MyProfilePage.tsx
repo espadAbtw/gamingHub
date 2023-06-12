@@ -47,7 +47,6 @@ export const MyProfilePage: React.FC = () => {
   let formData = new FormData();
   useEffect(() => {
     dispatch(setToken());
-    console.log(user?.userPicturePath);
     setProfileImage(user?.userPicturePath);
   }, []);
 
@@ -75,7 +74,7 @@ export const MyProfilePage: React.FC = () => {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
 
-    console.log(file);
+
     if (file) {
       formData.append("file", file);
       const reader = new FileReader();
@@ -102,7 +101,7 @@ export const MyProfilePage: React.FC = () => {
       name: name,
       email: email,
     };
-    console.log(values);
+  
     dispatch(setToken());
     GhDataApi.put(updateUserEndpoint(), values).then((response) => {
       dispatch(changeUserBasicCredentials(response.data));

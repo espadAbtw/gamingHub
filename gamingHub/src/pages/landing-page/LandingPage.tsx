@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import {
   FriendListWidget,
   MyPostWidget,
@@ -14,11 +13,6 @@ import { User } from "../../utils";
 import { selectUser } from "../../store/authSlice";
 
 export const LandingPage: React.FC = () => {
-  const state = useSelector((state) => state);
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const user = useSelector(selectUser);
   const { _id, userPicturePath } = user as User;

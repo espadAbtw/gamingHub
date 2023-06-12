@@ -40,7 +40,7 @@ export const authSlice = createSlice({
       GhDataApiFile.defaults.headers.common[
         "Authorization"
       ] = `${state.user?.resetToken}`;
-      console.log("seba");
+    
     },
     setFriends: (state, action) => {
       state.friends = action.payload;
