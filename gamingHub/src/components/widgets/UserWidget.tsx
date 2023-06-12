@@ -84,7 +84,6 @@ export const UserWidget: React.FC<UserWidgetProps> = ({
             <Typography color="#161616">{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
-        <ManageAccountsOutlined />
       </FlexBetween>
 
       <Divider />
