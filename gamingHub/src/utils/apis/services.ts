@@ -57,3 +57,6 @@ export function updateUserEndpoint(): string {
 export function getChangePasswordEndpoint(): string {
   return "/user/resetPassword";
 }
+export function addCommentEndpoint(): string {
+  return "/comment/addComment";
+}

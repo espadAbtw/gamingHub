@@ -4,7 +4,15 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Input, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Input,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { FlexBetween } from "./FlexBetween";
 import { FriendWidget } from "./FriendWidget";
 import { WidgetWrapper } from "./WidgetWrapper";
@@ -15,6 +23,7 @@ import { selectUserId, setToken } from "../../store/authSlice";
 import { GhDataApi } from "../../utils/axiosConfig";
 import {
   User,
+  addCommentEndpoint,
   addLikeEndpoint,
   getCommentsEndpoint,
   getUserEndpoint,
@@ -44,6 +53,7 @@ export const PostWidget: React.FC<PostProps> = ({
   userimagePath,
   likes,
 }) => {
+  const [addCommentContent, setAddCommentContent] = useState<string>("");
   const [friendData, setFriendData] = useState<User>();
   const [comments, setComments] = useState<Comment[]>([]);
   const [isComments, setIsComments] = useState(false);
@@ -85,7 +95,16 @@ export const PostWidget: React.FC<PostProps> = ({
       console.log(error);
     }
   };
-
+  const handleAddComment = async (): Promise<void> => {
+    const values = {
+      postId: _id,
+      userId: loggedInUserId,
+      content: addCommentContent,
+    };
+    GhDataApi.post(addCommentEndpoint(), values).then((response) => {
+      getComments();
+    });
+  };
   useEffect(() => {
     getComments();
     getFriendData();
@@ -148,7 +167,20 @@ export const PostWidget: React.FC<PostProps> = ({
             </Box>
           ))}
           <Divider />
-          <Input />
+          <Input
+            value={addCommentContent}
+            size="small"
+            onChange={(e) => setAddCommentContent(e.target.value)}
+            sx={{ margin: "5px" }}
+          />
+          <Button
+            variant="contained"
+            type="button"
+            onClick={handleAddComment}
+            sx={{ margin: "10px" }}
+          >
+            Add
+          </Button>
         </Box>
       )}
     </WidgetWrapper>
