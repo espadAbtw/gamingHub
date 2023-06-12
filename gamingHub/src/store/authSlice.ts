@@ -18,7 +18,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setLogin: (state, action: PayloadAction<AuthState>) => {
+    setLogin: (state, action) => {
       state.user = action.payload.user;
     },
     setUserPicturePath: (state, action: PayloadAction<string>) => {
@@ -70,7 +70,7 @@ export const {
   setFriends,
   setUserPicturePath,
   removeFriend,
-  addUserFriend
+  addUserFriend,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export const selectUserId = (state: RootState) => state.user.user?._id;

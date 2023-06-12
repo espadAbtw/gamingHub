@@ -66,6 +66,7 @@ export const MyProfilePage: React.FC = () => {
 
     console.log(file);
     if (file) {
+  
       formData.append("file", file);
       const reader = new FileReader();
       reader.onloadend = () => {

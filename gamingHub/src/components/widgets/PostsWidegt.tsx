@@ -18,7 +18,7 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
 
   useEffect(() => {
     dispatch(getAllPosts());
-  }, [dispatch]);
+  }, []);
 
   const filteredPosts = userId
     ? posts.filter((post) => post.userID === userId)
@@ -26,29 +26,33 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
 
   return (
     <>
-      {filteredPosts.map(
-        ({
-          _id,
-          userID,
-          userName,
-          content,
-          imagePath,
-          userPicturePath,
-          likes,
-          category,
-        }) => (
-          <PostWidget
-            key={_id}
-            _id={_id}
-            userID={userID as string}
-            name={userName}
-            content={content}
-            imagePath={imagePath}
-            userimagePath={userPicturePath}
-            likes={likes}
-            category={category}
-          />
+      {filteredPosts.length > 0 ? (
+        filteredPosts.map(
+          ({
+            _id,
+            userID,
+            userName,
+            content,
+            imagePath,
+            userPicturePath,
+            likes,
+            category,
+          }) => (
+            <PostWidget
+              key={_id}
+              _id={_id}
+              userID={userID as string}
+              name={userName}
+              content={content}
+              imagePath={imagePath}
+              userimagePath={userPicturePath}
+              likes={likes}
+              category={category}
+            />
+          )
         )
+      ) : (
+        <div>Loading...</div>
       )}
     </>
   );

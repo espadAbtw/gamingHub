@@ -19,22 +19,37 @@ import Dropzone from "react-dropzone";
 import { UserImage } from "./UserImage";
 import { WidgetWrapper } from "./WidgetWrapper";
 import { useState } from "react";
-import { image } from "../../utils";
+import {
+  addPhotoProfileCluudEndpoint,
+  addPostEndpoint,
+  image,
+} from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../store/authSlice";
+import { GhDataApi, GhDataApiFile } from "../../utils/axiosConfig";
+import { addPost, setPosts } from "../../store/postSlice";
 
 type MyPostWidgetProps = {
   picturePath: string;
 };
-
+type FileForm = {
+  lastModified: number;
+  lastModifiedDate: Date;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+};
 export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
   const [isImage, setIsImage] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<image | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
-
+  const user = useSelector(selectUser);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = "#161616";
   const medium = "blue";
-
+  const dispatch = useDispatch();
   const handlePost = async () => {
     // const formData = new FormData();
     // formData.append("userId", _id as string);
@@ -48,10 +63,31 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
     //   headers: { Authorization: `Bearer ${token}` },
     //   body: formData,
     // });
-    // const posts = await response.json();
-    // dispatch(setPosts({ posts }));
-    // setSelectedImage(null);
-    // setPost("");
+
+    const formData = new FormData();
+    let imgPath = "";
+    if (selectedImage) {
+      console.log(selectedImage);
+      formData.append("file", selectedImage);
+      const imgUploadResponse = await GhDataApiFile.post(
+        addPhotoProfileCluudEndpoint(),
+        formData
+      );
+      imgPath = imgUploadResponse.data.url;
+    }
+
+    const values = {
+      userId: user?._id,
+      content: post,
+      imagePath: imgPath,
+      category: "asd",
+    };
+
+    const response = await GhDataApi.post(addPostEndpoint(), values);
+    const postResponse = await response.data;
+    dispatch(addPost(postResponse));
+    setSelectedImage(null);
+    setPost("");
   };
 
   return (
@@ -79,7 +115,7 @@ export const MyPostWidget: React.FC<MyPostWidgetProps> = ({ picturePath }) => {
         >
           <Dropzone
             multiple={false}
-            onDrop={(acceptedFiles: Array<any>) =>
+            onDrop={(acceptedFiles: Array<File>) =>
               setSelectedImage(acceptedFiles[0])
             }
           >

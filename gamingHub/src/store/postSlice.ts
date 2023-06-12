@@ -31,6 +31,9 @@ export const postSlice = createSlice({
     addPost: (state, action: PayloadAction<Post>) => {
       state.posts.push(action.payload);
     },
+    setPosts: (state, action) => {
+      state.posts = action.payload.posts;
+    },
     setPost: (state, action) => {
       const updatedPosts = state.posts.map((post) => {
         if (post._id === action.payload.post._id) return action.payload.post;
@@ -60,7 +63,7 @@ export const postSlice = createSlice({
   },
 });
 
-export const { setPost, addPost } = postSlice.actions;
+export const { setPost, setPosts, addPost } = postSlice.actions;
 
 export const selectPosts = (state: RootState) => state.posts.posts;
 

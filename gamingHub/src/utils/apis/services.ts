@@ -28,7 +28,6 @@ export function addPhotoProfileCluudEndpoint(): string {
   return `/upload`;
 }
 
-
 export function getCommentsEndpoint(postId: string): string {
   return `/comment/${postId}/comments`;
 }
@@ -49,3 +48,6 @@ export function deleteFriendEndpoint(
   return `/user/delete/${userId}/${friendId}`;
 }
 
+export function addPostEndpoint(): string {
+  return "/post/addPost";
+}

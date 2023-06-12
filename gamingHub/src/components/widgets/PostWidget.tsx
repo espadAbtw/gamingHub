@@ -112,7 +112,7 @@ export const PostWidget: React.FC<PostProps> = ({
           height="auto"
           alt="#161616"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`../assets/${imagePath}`}
+          src={imagePath}
         />
       )}
       <FlexBetween mt="0.25rem">

@@ -38,7 +38,15 @@ export const SignUpForm: React.FC = () => {
   const onSubmit = (values: RegisterCredentials) => {
     GhDataApi.post(getRegistrationEndpoint(), values)
       .then((response) => {
-        dispatch(setLogin({ user: response.data }));
+        const values = {
+          _id: response.data._id,
+          name: response.data.name,
+          email: response.data.email,
+          friends: [],
+          resetToken: response.data.resetToken,
+          userPicturePath: response.data.userPicturePath,
+        };
+        dispatch(setLogin({ user: values }));
         navigate("/home");
       })
       .catch(() => setIsError(true));
