@@ -7,10 +7,16 @@ import {
   Typography,
   Modal,
   Fade,
+  Alert,
 } from "@mui/material";
 import { Navbar } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogout, setToken, setUserPicturePath } from "../../store/authSlice";
+import {
+  setLogout,
+  setToken,
+  setUserPicturePath,
+  changeUserBasicCredentials,
+} from "../../store/authSlice";
 import { GhDataApi, GhDataApiFile } from "../../utils/axiosConfig";
 import { selectUser } from "../../store/authSlice";
 import {
@@ -18,12 +24,17 @@ import {
   addPhotoProfileCluudEndpoint,
   addPhotoProfileEndpoint,
   deleteAccountEndpoint,
+  getChangePasswordEndpoint,
+  updateUserEndpoint,
 } from "../../utils";
 
 export const MyProfilePage: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const [isAlertCred, setIsAlertCred] = useState(false);
+  const [isAlertPhoto, setIsAlertPhoto] = useState(false);
+  const [isAlertPassword, setIsAlertPassword] = useState(false);
   const [name, setName] = useState((user as User).name as string);
   const [email, setEmail] = useState((user as User).email as string);
   const [profileImage, setProfileImage] = useState<string | null | undefined>(
@@ -66,7 +77,6 @@ export const MyProfilePage: React.FC = () => {
 
     console.log(file);
     if (file) {
-  
       formData.append("file", file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -81,18 +91,50 @@ export const MyProfilePage: React.FC = () => {
             userPicturePath: response.data.url,
           });
           dispatch(setUserPicturePath(response.data.url));
-          alert("Photo changed successfully");
+          setIsAlertPhoto(true);
         }
       );
     }
   };
 
   const handleSaveChanges = () => {
-    // Logic for saving changes to name, email, and image
+    const values = {
+      name: name,
+      email: email,
+    };
+    console.log(values);
+    dispatch(setToken());
+    GhDataApi.put(updateUserEndpoint(), values).then((response) => {
+      dispatch(changeUserBasicCredentials(response.data));
+      setIsAlertCred(true);
+    });
   };
 
   const handleResetPasswordConfirm = () => {
-    // Logic for resetting password
+    if (!emailModal || !newPassword || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Sprawdź, czy nowe hasło i potwierdzenie hasła są identyczne
+    if (newPassword !== confirmPassword) {
+      alert("New password and confirmation password do not match.");
+      return;
+    }
+
+    const values = {
+      email: emailModal,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    };
+
+    GhDataApi.post(getChangePasswordEndpoint(), values)
+      .then((response) => {
+        setIsAlertPassword(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setResetModalOpen(false);
   };
 
@@ -158,6 +200,9 @@ export const MyProfilePage: React.FC = () => {
               />
             </label>
           </Box>
+          {isAlertPhoto ? (
+            <Alert severity="success">User Photo changed successfully</Alert>
+          ) : null}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
@@ -219,6 +264,11 @@ export const MyProfilePage: React.FC = () => {
           >
             Save
           </Button>
+          {isAlertCred ? (
+            <Alert severity="success">
+              User Credentials changed successfully
+            </Alert>
+          ) : null}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "26%" : undefined}
@@ -273,6 +323,9 @@ export const MyProfilePage: React.FC = () => {
               Reset
             </Button>
           </Box>
+          {isAlertPassword ? (
+            <Alert severity="success">Password changed successfully</Alert>
+          ) : null}
         </Box>
       </Box>
       <Modal open={resetModalOpen} onClose={handleResetModalClose}>
@@ -323,7 +376,7 @@ export const MyProfilePage: React.FC = () => {
               sx={{ margin: "10px" }}
             />
             <Button
-              type="submit"
+              type="button"
               variant="contained"
               color="primary"
               disabled={
@@ -332,6 +385,7 @@ export const MyProfilePage: React.FC = () => {
                 !confirmPassword ||
                 newPassword !== confirmPassword
               }
+              onClick={handleResetPasswordConfirm}
             >
               Reset
             </Button>

@@ -51,3 +51,9 @@ export function deleteFriendEndpoint(
 export function addPostEndpoint(): string {
   return "/post/addPost";
 }
+export function updateUserEndpoint(): string {
+  return "/user/updateUserInfo";
+}
+export function getChangePasswordEndpoint(): string {
+  return "/user/resetPassword";
+}

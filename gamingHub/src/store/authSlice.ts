@@ -57,6 +57,12 @@ export const authSlice = createSlice({
     setUserFriends: (state, action) => {
       if (state.user) state.user.friends = action.payload;
     },
+    changeUserBasicCredentials: (state, action) => {
+      if (state.user) {
+        state.user.email = action.payload.email;
+        state.user.name = action.payload.name;
+      }
+    },
   },
 });
 export const selectUser = (state: RootState) => state.user.user;
@@ -71,6 +77,7 @@ export const {
   setUserPicturePath,
   removeFriend,
   addUserFriend,
+  changeUserBasicCredentials
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export const selectUserId = (state: RootState) => state.user.user?._id;
