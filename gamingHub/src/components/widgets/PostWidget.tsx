@@ -11,7 +11,7 @@ import { WidgetWrapper } from "./WidgetWrapper";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { selectUserId } from "../../store/authSlice";
+import { selectUserId, setToken } from "../../store/authSlice";
 import { GhDataApi } from "../../utils/axiosConfig";
 import {
   User,
@@ -54,7 +54,7 @@ export const PostWidget: React.FC<PostProps> = ({
     likes && loggedInUserId ? Boolean(likes[loggedInUserId]) : false;
 
   const getFriendData = async (): Promise<void> => {
-    dispatch(setToken);
+    dispatch(setToken());
     try {
       const response = await GhDataApi.get(getUserEndpoint(userID));
       const data = response.data;
@@ -135,10 +135,6 @@ export const PostWidget: React.FC<PostProps> = ({
             <Typography>{comments.length}</Typography>
           </FlexBetween>
         </FlexBetween>
-
-        <IconButton>
-          <ShareOutlined />
-        </IconButton>
       </FlexBetween>
       {isComments && (
         <Box mt="0.5rem">

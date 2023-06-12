@@ -4,7 +4,6 @@ import { RootState } from "./store";
 import { GhDataApi, GhDataApiFile } from "../utils/axiosConfig";
 import { Friend } from "../utils";
 
-
 type AuthState = {
   user: User | null;
   friends: Friend[] | null;
@@ -32,9 +31,7 @@ export const authSlice = createSlice({
       delete GhDataApi.defaults.headers.common["Authorization"];
     },
     addFriend: (state, action) => {
-      if (state.user) {
-        state.user.friends.push(action.payload.friend);
-      }
+      if (state.friends) state.friends.push(action.payload);
     },
     setToken: (state) => {
       GhDataApi.defaults.headers.common[
@@ -48,16 +45,33 @@ export const authSlice = createSlice({
     setFriends: (state, action) => {
       state.friends = action.payload;
     },
+    addUserFriend: (state, action) => {
+      if (state.user) state.user.friends.push(action.payload);
+    },
+    removeFriend: (state, action) => {
+      if (state.user)
+        state.user.friends = state.user.friends.filter(
+          (friend) => friend !== action.payload
+        );
+    },
+    setUserFriends: (state, action) => {
+      if (state.user) state.user.friends = action.payload;
+    },
   },
 });
 export const selectUser = (state: RootState) => state.user.user;
 
-
-
 export const selectFriends = (state: RootState) => state.user.friends;
-export const { setLogin, setLogout, addFriend, setToken, setFriends, setUserPicturePath } =
-
-  authSlice.actions;
+export const {
+  setLogin,
+  setLogout,
+  addFriend,
+  setToken,
+  setFriends,
+  setUserPicturePath,
+  removeFriend,
+  addUserFriend
+} = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export const selectUserId = (state: RootState) => state.user.user?._id;
 export default authSlice.reducer;

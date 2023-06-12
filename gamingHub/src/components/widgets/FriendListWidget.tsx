@@ -5,10 +5,10 @@ import { WidgetWrapper } from "./WidgetWrapper";
 import { useDispatch, useSelector } from "react-redux";
 // import { addFriends } from "state";
 
-import { selectFriends, setFriends } from "../../store/authSlice";
+import { addFriend, selectFriends, setFriends } from "../../store/authSlice";
 import { GhDataApi } from "../../utils/axiosConfig";
-import { getFriendsEndpoint } from "../../utils";
-import { useEffect } from "react";
+import { Friend, getFriendsEndpoint } from "../../utils";
+import { useEffect, useState } from "react";
 
 type FriendListWidgetProps = {
   userId: string;
@@ -25,11 +25,11 @@ export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
       dispatch(setFriends(response.data));
     });
   };
+  const friends = useSelector(selectFriends);
+  console.log("Friends z komponentu: ", friends);
   useEffect(() => {
     getFriends();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const friends = useSelector(selectFriends);
+  }, [addFriend]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <WidgetWrapper
@@ -48,7 +48,7 @@ export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
         Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
-        {friends &&
+        {friends ? (
           friends.map((friend) => (
             <FriendWidget
               key={friend._id}
@@ -56,7 +56,10 @@ export const FriendListWidget: React.FC<FriendListWidgetProps> = ({
               name={friend.name}
               userPicturePath={friend.userPicturePath}
             />
-          ))}
+          ))
+        ) : (
+          <div>Loading...</div>
+        )}
       </Box>
     </WidgetWrapper>
   );

@@ -2,7 +2,14 @@ import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectUser, setFriends, setToken } from "../../store/authSlice";
+import {
+  addFriend,
+  removeFriend,
+  selectUser,
+  setFriends,
+  setToken,
+  addUserFriend,
+} from "../../store/authSlice";
 import { FlexBetween } from "./FlexBetween";
 import { UserImage } from "./UserImage";
 import { addFriendEndpoint, deleteFriendEndpoint } from "../../utils";
@@ -34,18 +41,24 @@ export const FriendWidget: React.FC<FriendProps> = ({
 
   const isFriend = arrayFriends?.find((item: string) => item === friendId);
 
-  console.log(isFriend, arrayFriends, friendId);
-
   const patchFriend = async () => {
     dispatch(setToken());
     if (!isFriend) {
       await GhDataApi.put(addFriendEndpoint(user?._id, friendId)).then(
-        (response) => dispatch(setFriends({ friends: response.data }))
+        (response) => {
+          const updatedFriends = response.data;
+          console.log(response.data, "response");
+          dispatch(setFriends(updatedFriends));
+          dispatch(addUserFriend(friendId));
+        }
       );
     } else {
       await GhDataApi.delete(deleteFriendEndpoint(user?._id, friendId)).then(
         (response) => {
-          dispatch(setFriends({ friends: response.data }));
+          const updatedFriends = response.data;
+          console.log(response.data, "response"); 
+          dispatch(setFriends(updatedFriends));
+          dispatch(removeFriend(friendId)); 
         }
       );
     }
