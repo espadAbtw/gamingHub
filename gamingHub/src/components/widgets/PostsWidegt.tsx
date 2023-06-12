@@ -21,8 +21,11 @@ export const PostsWidget: React.FC<PostsWidgetProps> = ({
   }, []);
 
   const filteredPosts = userId
-    ? posts.filter((post) => post.userID === userId)
-    : posts;
+    ? posts
+        .filter((post) => post.userID === userId)
+        .slice()
+        .reverse()
+    : posts.slice().reverse();
 
   return (
     <>
