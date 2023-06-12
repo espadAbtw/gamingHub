@@ -51,8 +51,7 @@ export const ProfilePage: React.FC = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget picturePath={user.userPicturePath} />
-          <Box m="2rem 0" />
+          <Box m={isNonMobileScreens ? "-2rem 0" : "2rem"} />
           <PostsWidget userId={userId as string} isProfile />
         </Box>
       </Box>
